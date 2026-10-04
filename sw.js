@@ -1,4 +1,4 @@
-const CACHE_NAME = "accessai-v2";
+const CACHE_NAME = "accessai-v3";
 
 const APP_SHELL = [
   "./",
