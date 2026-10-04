@@ -1,141 +1,1910 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#08111f">
-  <meta name="description" content="AccessAI — professional voice-first accessibility assistant.">
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="styles.css">
-  <title>AccessAI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
+<title>AccessAI</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+background:linear-gradient(180deg,#07111f,#091827);
+color:#fff;
+font-family:Arial,Helvetica,sans-serif
+}
+.app{
+max-width:850px;
+margin:auto;
+padding:18px
+}
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px
+}
+.logo{
+display:flex;
+align-items:center;
+gap:12px
+}
+.logoIcon{
+width:45px;
+height:45px;
+border-radius:14px;
+background:#12324a;
+display:grid;
+place-items:center;
+border:1px solid #31556f
+}
+.logoIcon svg{
+width:27px;
+stroke:#59d8ff;
+fill:none;
+stroke-width:2
+}
+.brand{
+font-size:23px;
+font-weight:bold
+}
+.sub{
+font-size:12px;
+color:#91a6ba
+}
+.help{
+width:44px;
+height:44px;
+border-radius:13px;
+border:1px solid #334b64;
+background:#102033;
+color:white;
+font-size:20px
+}
+.intro{
+text-align:center;
+margin:25px auto
+}
+.intro small{
+color:#59d8ff;
+font-weight:bold;
+letter-spacing:2px
+}
+.intro h1{
+font-size:38px;
+margin:8px 0
+}
+.intro h1 span{color:#59d8ff}
+.intro p{
+color:#9db0c3;
+line-height:1.5
+}
+.voiceArea{
+display:flex;
+flex-direction:column;
+align-items:center;
+margin:35px 0
+}
+.voice{
+width:260px;
+height:260px;
+border-radius:50%;
+border:2px solid #3c7089;
+background:radial-gradient(circle at 35% 20%,#205872,#0b273b 60%,#07111f);
+color:white;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+box-shadow:0 0 0 9px #0c1c2c,0 20px 55px #0009;
+transition:.2s
+}
+.voice.listening{
+border-color:#59d8ff;
+box-shadow:0 0 0 9px #0c1c2c,0 0 50px #59d8ff77
+}
+.mic{
+width:62px;
+height:62px;
+display:grid;
+place-items:center;
+margin-bottom:14px
+}
+.mic svg{
+width:48px;
+height:48px;
+fill:none;
+stroke:white;
+stroke-width:2;
+stroke-linecap:round
+}
+.voice strong{font-size:23px}
+.voice small{
+margin-top:7px;
+color:#b4c6d7
+}
+.transcript{
+margin-top:20px;
+color:#aebfd0;
+text-align:center;
+min-height:45px
+}
+.sectionTitle{
+margin-top:30px
+}
+.label{
+color:#59d8ff;
+font-size:10px;
+font-weight:bold;
+letter-spacing:2px
+}
+h2{
+margin:5px 0 14px
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px
+}
+.card{
+min-height:125px;
+padding:15px;
+border-radius:17px;
+border:1px solid #263d54;
+background:#0e1c2c;
+color:white;
+text-align:left
+}
+.card:hover{
+border-color:#4b7894
+}
+.icon{
+width:42px;
+height:42px;
+border-radius:12px;
+background:#172c42;
+display:grid;
+place-items:center;
+margin-bottom:15px
+}
+.icon svg{
+width:23px;
+height:23px;
+fill:none;
+stroke:#dff7ff;
+stroke-width:1.7;
+stroke-linecap:round;
+stroke-linejoin:round
+}
+.card b{
+display:block;
+font-size:14px
+}
+.card small{
+display:block;
+color:#879caf;
+font-size:11px;
+margin-top:5px
+}
+.panel{
+margin-top:15px;
+padding:18px;
+border-radius:18px;
+background:#0d1a29;
+border:1px solid #263d54
+}
+.response{
+font-size:17px;
+line-height:1.6;
+color:#e9f3fb;
+min-height:55px
+}
+input,select{
+width:100%;
+padding:13px;
+border-radius:11px;
+border:1px solid #354d65;
+background:#071321;
+color:white;
+margin-top:8px
+}
+button{
+font-family:inherit;
+cursor:pointer
+}
+.primary{
+width:100%;
+padding:13px;
+border:0;
+border-radius:11px;
+background:#258ab0;
+color:white;
+font-weight:bold;
+margin-top:8px
+}
+.contact{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px;
+margin-top:8px;
+border-radius:12px;
+background:#081422;
+border:1px solid #20374d
+}
+.contactInfo b{display:block}
+.contactInfo small{color:#879caf}
+.contactButtons{
+display:flex;
+gap:5px
+}
+.contactButtons button{
+width:38px;
+height:38px;
+border-radius:9px;
+border:1px solid #334c64;
+background:#15283c;
+color:white
+}
+.scanner{
+display:none
+}
+.scanner.show{
+display:block
+}
+.camera{
+position:relative;
+background:#000;
+border-radius:14px;
+overflow:hidden;
+margin-top:12px
+}
+video{
+width:100%;
+display:block
+}
+canvas{
+position:absolute;
+left:0;
+top:0;
+width:100%;
+height:100%
+}
+.scanResult{
+padding:12px 0;
+color:#aebfd0
+}
+.wide{
+width:100%;
+padding:13px;
+border:0;
+border-radius:11px;
+background:#258ab0;
+color:white;
+font-weight:bold
+}
+.stop{
+width:100%;
+padding:13px;
+margin-top:18px;
+border-radius:11px;
+border:1px solid #67323a;
+background:#32151b;
+color:#ffdfe2;
+font-weight:bold
+}
+footer{
+text-align:center;
+color:#667d91;
+font-size:11px;
+line-height:1.5;
+margin-top:15px
+}
+.hidden{display:none}
+
+@media(max-width:650px){
+.app{padding:15px}
+.intro h1{font-size:32px}
+.grid{grid-template-columns:repeat(2,1fr)}
+.voice{width:245px;height:245px}
+}
+</style>
 </head>
+
 <body>
-  <div class="appShell">
-    <header class="topbar">
-      <div class="brandGroup">
-        <div class="brandMark" aria-hidden="true">
-          <svg viewBox="0 0 48 48"><path d="M24 5a19 19 0 1 0 19 19A19 19 0 0 0 24 5Z"/><path d="M18 24h12M24 18v12"/><circle cx="24" cy="24" r="4"/></svg>
-        </div>
-        <div>
-          <div class="brand">AccessAI</div>
-          <div class="subtitle">Accessible voice assistant</div>
-        </div>
-      </div>
-      <button id="helpBtn" class="roundIconButton" aria-label="Read available commands">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.7 9a2.4 2.4 0 1 1 4.4 1.3c-.9 1.1-2.1 1.3-2.1 2.7M12 16.5h.01"/></svg>
-      </button>
-    </header>
 
-    <main>
-      <section class="welcome">
-        <span class="eyebrow">VOICE CONTROL</span>
-        <h1>Your world, <span>within reach.</span></h1>
-        <p>Tap the button and speak naturally. AccessAI will respond with voice.</p>
-      </section>
+<div class="app">
 
-      <section class="voiceSection" aria-label="Main voice control">
-        <div class="voiceGlow"></div>
-        <button id="speakBtn" class="voiceButton" aria-label="Tap to speak">
-          <span class="voiceIcon">
-            <svg viewBox="0 0 48 48" aria-hidden="true">
-              <rect x="18" y="7" width="12" height="24" rx="6"/>
-              <path d="M11 23a13 13 0 0 0 26 0M24 36v6M17 42h14"/>
-            </svg>
-          </span>
-          <strong id="speakLabel">Tap to Speak</strong>
-          <small id="status">Ready</small>
-        </button>
-        <div class="transcript" id="transcript" aria-live="polite">Try: “What is my location?”</div>
-      </section>
+<header>
+<div class="logo">
+<div class="logoIcon">
+<svg viewBox="0 0 48 48">
+<circle cx="24" cy="24" r="18"/>
+<path d="M18 24h12M24 18v12"/>
+<circle cx="24" cy="24" r="4"/>
+</svg>
+</div>
+<div>
+<div class="brand">AccessAI</div>
+<div class="sub">Accessible Voice Assistant</div>
+</div>
+</div>
 
-      <section class="quickSection">
-        <div class="sectionTitle">
-          <div><span class="eyebrow">QUICK ACCESS</span><h2>Essential tools</h2></div>
-        </div>
-        <div class="quickGrid" aria-label="Quick actions">
-          <button class="toolCard" data-command="news">
-            <span class="toolIcon newsIcon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
-            <span>Latest News</span><small>Listen to headlines</small>
-          </button>
-          <button class="toolCard" data-command="location">
-            <span class="toolIcon"><svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
-            <span>My Location</span><small>Current position</small>
-          </button>
-          <button class="toolCard" data-command="time">
-            <span class="toolIcon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg></span>
-            <span>Current Time</span><small>Hear the time</small>
-          </button>
-          <button class="toolCard" data-command="date">
-            <span class="toolIcon"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10h16"/></svg></span>
-            <span>Today's Date</span><small>Hear the date</small>
-          </button>
-          <button class="toolCard" data-command="weather">
-            <span class="toolIcon"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6 11.5 3.5 3.5 0 0 0 7 18Z"/></svg></span>
-            <span>Weather</span><small>Local conditions</small>
-          </button>
-          <button class="toolCard featuredTool" data-command="scanner">
-            <span class="toolIcon"><svg viewBox="0 0 24 24"><path d="M5 7h3l1.5-2h5L16 7h3v12H5Z"/><circle cx="12" cy="13" r="3.5"/><path d="M8 10h.01"/></svg></span>
-            <span>Object Scanner</span><small>AI camera detection</small>
-          </button>
-          <button class="toolCard" data-command="contacts">
-            <span class="toolIcon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6.5 20a5.5 5.5 0 0 1 11 0M19 7v5M16.5 9.5h5"/></svg></span>
-            <span>Contacts</span><small>Call & message</small>
-          </button>
-          <button class="toolCard" data-command="calculator">
-            <span class="toolIcon"><svg viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M8 7h8M8 11h2M14 11h2M8 15h2M14 15h2M8 18h8"/></svg></span>
-            <span>Calculator</span><small>Voice calculation</small>
-          </button>
-        </div>
-      </section>
+<button class="help" id="help">?</button>
+</header>
 
-      <section class="panel responsePanel">
-        <div class="panelLabel"><span class="statusDot"></span> ASSISTANT RESPONSE</div>
-        <div id="response" class="response" aria-live="polite">I am ready to help.</div>
-      </section>
+<section class="intro">
+<small>VOICE CONTROL</small>
+<h1>Your world, <span>within reach.</span></h1>
+<p>
+Tap the button and speak naturally.
+AccessAI will understand your command and respond by voice.
+</p>
+</section>
 
-      <section class="panel">
-        <div class="panelHead"><div><span class="eyebrow">PERSONAL</span><h2>Saved Contacts</h2></div></div>
-        <form id="contactForm" class="contactForm">
-          <input id="contactName" required placeholder="Contact name" autocomplete="name">
-          <input id="contactPhone" required placeholder="+91XXXXXXXXXX" inputmode="tel" autocomplete="tel">
-          <button type="submit" class="primaryButton">Save Contact</button>
-        </form>
-        <div id="contactsList" class="contactsList"></div>
-      </section>
+<section class="voiceArea">
 
-      <section id="scannerPanel" class="panel hidden">
-        <div class="panelHead">
-          <div><span class="eyebrow">ARTIFICIAL INTELLIGENCE</span><h2>Object Scanner</h2></div>
-          <button id="closeScanner" class="secondaryButton">Close</button>
-        </div>
-        <p id="mlStatus" class="muted">Loading camera and ML model…</p>
-        <div class="cameraWrap">
-          <video id="camera" autoplay playsinline muted></video>
-          <canvas id="overlay"></canvas>
-          <div class="cameraBadge">ML DETECTION</div>
-        </div>
-        <div id="objects" class="objectText">No objects detected yet.</div>
-        <button id="speakObjects" class="wideButton">Read Detected Objects</button>
-      </section>
+<button class="voice" id="voice">
+<div class="mic">
+<svg viewBox="0 0 48 48">
+<rect x="18" y="6" width="12" height="25" rx="6"/>
+<path d="M11 23a13 13 0 0 0 26 0"/>
+<path d="M24 36v7M17 43h14"/>
+</svg>
+</div>
 
-      <section class="panel settingsPanel">
-        <div class="panelHead"><div><span class="eyebrow">PREFERENCES</span><h2>Voice Settings</h2></div></div>
-        <label class="setting"><span>Speech language</span><select id="language"><option value="en-IN">English (India)</option><option value="mr-IN">Marathi (India)</option><option value="hi-IN">Hindi (India)</option></select></label>
-        <label class="setting"><span>Speech speed</span><input id="rate" type="range" min="0.6" max="1.4" step="0.1" value="0.9"></label>
-      </section>
-    </main>
+<strong id="voiceText">Tap to Speak</strong>
+<small id="status">Ready</small>
+</button>
 
-    <footer>
-      <button id="stopBtn" class="stopButton">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/></svg>
-        Stop Speaking & Timers
-      </button>
-      <p>Designed for accessible assistance. Object detection should not replace a mobility aid or human support.</p>
-    </footer>
-  </div>
-  <script src="config.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.2/dist/coco-ssd.min.js"></script>
-  <script src="app.js"></script>
+<div class="transcript" id="transcript">
+Say "What is the time?"
+</div>
+
+</section>
+
+<div class="sectionTitle">
+<span class="label">QUICK ACCESS</span>
+<h2>Essential Tools</h2>
+</div>
+
+<section class="grid">
+
+<button class="card" onclick="command('news')">
+<div class="icon">
+<svg viewBox="0 0 24 24">
+<path d="M5 4h14v16H5z"/>
+<path d="M8 8h8M8 12h8M8 16h5"/>
+</svg>
+</div>
+<b>Latest News</b>
+<small>Listen to headlines</small>
+</button>
+
+<button class="card" onclick="command('location')">
+<div class="icon">
+<svg viewBox="0 0 24 24">
+<path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/>
+<circle cx="12" cy="10" r="2.5"/>
+</svg>
+</div>
+<b>My Location</b>
+<small>Current position</small>
+</button>
+
+<button class="card" onclick="command('time')">
+<div class="icon">
+<svg viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="8"/>
+<path d="M12 7v5l3 2"/>
+</svg>
+</div>
+<b>Current Time</b>
+<small>Hear the time</small>
+</button>
+
+<button class="card" onclick="command('date')">
+<div class="icon">
+<svg viewBox="0 0 24 24">
+<rect x="4" y="5" width="16" height="15" rx="2"/>
+<path d="M8 3v4M16 3v4M4 10h16"/>
+</svg>
+</div>
+<b>Today's Date</b>
+<small>Hear the date</small>
+</button>
+
+<button class="card" onclick="command('weather')">
+<div class="icon">
+<svg viewBox="0 0 24 24">
+<path d="M7 18h10a4 4 0 0 0 1-8 6 6 0 0 0-12 1 3.5 3.5 0 0 0 1 7Z"/>
+</svg>
+</div>
+<b>Weather</b>
+<small>Local conditions</small>
+</button>
+
+<button class="card" onclick="command('scanner')">
+<div class="icon">
+<svg viewBox="0 0 24 24">
+<path d="M5 7h3l2-2h4l2 2h3v12H5z"/>
+<circle cx="12" cy="13" r="3.5"/>
+</svg>
+</div>
+<b>Object Scanner</b>
+<small>AI camera detection</small>
+</button>
+
+<button class="card" onclick="document.getElementById('name').focus()">
+<div class="icon">
+<svg viewBox="0 0 24 24">
+<circle cx="12" cy="8" r="3"/>
+<path d="M6 20a6 6 0 0 1 12 0"/>
+</svg>
+</div>
+<b>Contacts</b>
+<small>Call & message</small>
+</button>
+
+<button class="card" onclick="speak('Say a calculation, for example, calculate twenty five plus ten.')">
+<div class="icon">
+<svg viewBox="0 0 24 24">
+<rect x="5" y="3" width="14" height="18" rx="2"/>
+<path d="M8 7h8M8 11h2M14 11h2M8 15h2M14 15h2M8 18h8"/>
+</svg>
+</div>
+<b>Calculator</b>
+<small>Voice calculation</small>
+</button>
+
+</section>
+
+<section class="panel">
+<span class="label">ASSISTANT RESPONSE</span>
+<div class="response" id="response">
+I am ready to help.
+</div>
+</section>
+
+<section class="panel">
+
+<span class="label">PERSONAL</span>
+<h2>Saved Contacts</h2>
+
+<input id="name" placeholder="Contact name">
+<input id="phone" placeholder="+91XXXXXXXXXX" inputmode="tel">
+
+<button class="primary" onclick="saveContact()">
+Save Contact
+</button>
+
+<div id="contacts"></div>
+
+</section>
+
+<section class="panel scanner" id="scanner">
+
+<span class="label">ARTIFICIAL INTELLIGENCE</span>
+<h2>Object Scanner</h2>
+
+<p id="mlStatus">Camera is not running.</p>
+
+<div class="camera">
+<video id="video" autoplay playsinline></video>
+<canvas id="canvas"></canvas>
+</div>
+
+<div class="scanResult" id="objects">
+No objects detected.
+</div>
+
+<button class="wide" onclick="readObjects()">
+Read Detected Objects
+</button>
+
+</section>
+
+<button class="stop" onclick="stopEverything()">
+Stop Speaking / Stop Timers
+</button>
+
+<footer>
+AccessAI is an accessibility assistance tool.
+Object detection should not replace a mobility aid or human support.
+</footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.2/dist/coco-ssd.min.js"></script>
+
+<script>
+
+/* =========================================================
+   ACCESSAI
+   MAIN VOICE ASSISTANT
+========================================================= */
+
+const voice=document.getElementById("voice");
+const voiceText=document.getElementById("voiceText");
+const statusText=document.getElementById("status");
+const response=document.getElementById("response");
+const transcript=document.getElementById("transcript");
+
+let recognition=null;
+let listening=false;
+let contacts=JSON.parse(localStorage.getItem("accessai_contacts")||"[]");
+let model=null;
+let stream=null;
+let detectionTimer=null;
+let detected=[];
+let newsTimer=null;
+
+
+/* =========================================================
+   SPEECH OUTPUT
+========================================================= */
+
+function speak(text){
+
+if(!text)return;
+
+window.speechSynthesis.cancel();
+
+const speech=new SpeechSynthesisUtterance(text);
+
+speech.lang="en-IN";
+speech.rate=.9;
+speech.pitch=1;
+speech.volume=1;
+
+response.textContent=text;
+
+window.speechSynthesis.speak(speech);
+}
+
+
+/* =========================================================
+   SPEECH RECOGNITION
+========================================================= */
+
+function setupVoice(){
+
+const SpeechRecognition=
+window.SpeechRecognition||
+window.webkitSpeechRecognition;
+
+if(!SpeechRecognition){
+
+speak(
+"Voice recognition is not supported in this browser. Please use the latest Chrome browser."
+);
+
+voice.disabled=true;
+
+return;
+}
+
+recognition=new SpeechRecognition();
+
+recognition.lang="en-IN";
+recognition.continuous=false;
+recognition.interimResults=false;
+recognition.maxAlternatives=3;
+
+
+recognition.onstart=function(){
+
+listening=true;
+
+voice.classList.add("listening");
+
+voiceText.textContent="Listening...";
+statusText.textContent="Speak your command";
+
+};
+
+
+recognition.onresult=function(event){
+
+const text=event.results[0][0].transcript;
+
+transcript.textContent="You said: "+text;
+
+handleCommand(text);
+
+};
+
+
+recognition.onerror=function(event){
+
+listening=false;
+
+voice.classList.remove("listening");
+
+voiceText.textContent="Tap to Speak";
+
+statusText.textContent="Try again";
+
+if(event.error==="not-allowed"){
+
+speak(
+"Microphone permission was denied. Please allow microphone permission and try again."
+);
+
+}
+
+};
+
+
+recognition.onend=function(){
+
+listening=false;
+
+voice.classList.remove("listening");
+
+voiceText.textContent="Tap to Speak";
+
+if(statusText.textContent==="Speak your command")
+statusText.textContent="Ready";
+
+};
+
+}
+
+
+voice.onclick=function(){
+
+if(!recognition){
+setupVoice();
+}
+
+if(listening){
+
+recognition.stop();
+
+return;
+
+}
+
+try{
+
+recognition.start();
+
+}catch(e){}
+
+};
+
+
+/* =========================================================
+   NATURAL COMMAND ENGINE
+========================================================= */
+
+function handleCommand(command){
+
+const text=command.toLowerCase().trim();
+
+
+/* STOP */
+
+if(
+text==="stop"||
+text.includes("stop speaking")||
+text.includes("be quiet")||
+text==="cancel"
+){
+
+stopEverything();
+
+speak("Stopped.");
+
+return;
+
+}
+
+
+/* TIME */
+
+if(
+text.includes("time")||
+text.includes("what time")||
+text.includes("current time")||
+text.includes("time now")
+){
+
+tellTime();
+
+return;
+
+}
+
+
+/* DATE */
+
+if(
+text.includes("date")||
+text.includes("today")||
+text.includes("what day")
+){
+
+tellDate();
+
+return;
+
+}
+
+
+/* LOCATION */
+
+if(
+text.includes("location")||
+text.includes("where am i")||
+text.includes("where are we")||
+text.includes("current place")
+){
+
+getLocation();
+
+return;
+
+}
+
+
+/* WEATHER */
+
+if(
+text.includes("weather")||
+text.includes("temperature")||
+text.includes("raining")||
+text.includes("rain today")
+){
+
+getWeather();
+
+return;
+
+}
+
+
+/* OBJECT SCANNER */
+
+if(
+text.includes("object scanner")||
+text.includes("open scanner")||
+text.includes("scan object")||
+text.includes("what is in front")||
+text.includes("what's in front")||
+text.includes("what do you see")
+){
+
+openScanner();
+
+return;
+
+}
+
+
+/* NEWS */
+
+if(
+text.includes("news")||
+text.includes("headlines")||
+text.includes("latest news")
+){
+
+let minutes=getMinutes(text);
+
+playNews(minutes||1);
+
+return;
+
+}
+
+
+/* CALL */
+
+if(
+text.startsWith("call ")||
+text.startsWith("phone ")||
+text.startsWith("dial ")
+){
+
+const name=text
+.replace(/^call /,"")
+.replace(/^phone /,"")
+.replace(/^dial /,"")
+.trim();
+
+callContact(name);
+
+return;
+
+}
+
+
+/* WHATSAPP MESSAGE */
+
+if(
+text.includes("message ")||
+text.includes("whatsapp")
+){
+
+messageCommand(text);
+
+return;
+
+}
+
+
+/* CALCULATOR */
+
+if(
+text.includes("calculate")||
+text.includes("calculator")||
+text.includes("plus")||
+text.includes("minus")||
+text.includes("multiplied")||
+text.includes("divided")
+){
+
+calculate(text);
+
+return;
+
+}
+
+
+/* YOUTUBE */
+
+if(text.includes("open youtube")){
+
+speak("Opening YouTube.");
+
+setTimeout(function(){
+
+window.open("https://www.youtube.com","_blank");
+
+},500);
+
+return;
+
+}
+
+
+/* GOOGLE */
+
+if(
+text.includes("open google")||
+text.includes("search google")
+){
+
+speak("Opening Google.");
+
+setTimeout(function(){
+
+window.open("https://www.google.com","_blank");
+
+},500);
+
+return;
+
+}
+
+
+/* HELP */
+
+if(
+text.includes("help")||
+text.includes("what can you do")||
+text.includes("commands")
+){
+
+help();
+
+return;
+
+}
+
+
+/* UNKNOWN */
+
+speak(
+"I did not understand that command. You can ask me for the time, date, location, weather, news, object scanner, contacts, calculator, YouTube or Google."
+);
+
+}
+
+
+/* =========================================================
+   TIME
+========================================================= */
+
+function tellTime(){
+
+const now=new Date();
+
+const time=now.toLocaleTimeString(
+"en-IN",
+{
+hour:"numeric",
+minute:"2-digit"
+}
+);
+
+speak("The current time is "+time+".");
+
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function tellDate(){
+
+const now=new Date();
+
+const date=now.toLocaleDateString(
+"en-IN",
+{
+weekday:"long",
+day:"numeric",
+month:"long",
+year:"numeric"
+}
+);
+
+speak("Today is "+date+".");
+
+}
+
+
+/* =========================================================
+   LOCATION
+========================================================= */
+
+function getLocation(){
+
+if(!navigator.geolocation){
+
+speak("Location is not supported on this device.");
+
+return;
+
+}
+
+statusText.textContent="Getting your location...";
+
+navigator.geolocation.getCurrentPosition(
+
+async function(position){
+
+const lat=position.coords.latitude;
+const lon=position.coords.longitude;
+
+try{
+
+const url=
+"https://api.bigdatacloud.net/data/reverse-geocode-client"+
+"?latitude="+lat+
+"&longitude="+lon+
+"&localityLanguage=en";
+
+const result=await fetch(url);
+
+const data=await result.json();
+
+let place=[
+data.locality,
+data.city,
+data.principalSubdivision,
+data.countryName
+].filter(Boolean);
+
+place=[...new Set(place)];
+
+if(place.length){
+
+speak(
+"Your current location is "+
+place.join(", ")+"."
+);
+
+}else{
+
+speak(
+"Your coordinates are "+
+lat.toFixed(5)+
+" latitude and "+
+lon.toFixed(5)+
+" longitude."
+);
+
+}
+
+}catch(e){
+
+speak(
+"Your current coordinates are latitude "+
+lat.toFixed(5)+
+" and longitude "+
+lon.toFixed(5)+"."
+);
+
+}
+
+statusText.textContent="Ready";
+
+},
+
+function(){
+
+statusText.textContent="Ready";
+
+speak(
+"I could not get your location. Please allow location permission and try again."
+);
+
+},
+
+{
+enableHighAccuracy:true,
+timeout:12000,
+maximumAge:0
+}
+
+);
+
+}
+
+
+/* =========================================================
+   WEATHER
+========================================================= */
+
+async function getWeather(){
+
+if(!navigator.geolocation){
+
+speak("I need your location to check the weather.");
+
+return;
+
+}
+
+statusText.textContent="Checking weather...";
+
+navigator.geolocation.getCurrentPosition(
+
+async function(position){
+
+try{
+
+const lat=position.coords.latitude;
+const lon=position.coords.longitude;
+
+const url=
+"https://api.open-meteo.com/v1/forecast"+
+"?latitude="+lat+
+"&longitude="+lon+
+"&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m"+
+"&timezone=auto";
+
+const result=await fetch(url);
+
+const data=await result.json();
+
+const c=data.current;
+
+const weather=weatherDescription(c.weather_code);
+
+speak(
+"Current weather is "+
+weather+
+". Temperature is "+
+Math.round(c.temperature_2m)+
+" degrees Celsius. It feels like "+
+Math.round(c.apparent_temperature)+
+" degrees. Humidity is "+
+c.relative_humidity_2m+
+" percent."
+);
+
+}catch(e){
+
+speak("I could not get the weather right now.");
+
+}
+
+statusText.textContent="Ready";
+
+},
+
+function(){
+
+statusText.textContent="Ready";
+
+speak(
+"Please allow location permission so I can check the weather."
+);
+
+}
+
+);
+
+}
+
+
+function weatherDescription(code){
+
+const map={
+0:"clear sky",
+1:"mainly clear",
+2:"partly cloudy",
+3:"overcast",
+45:"foggy",
+48:"foggy",
+51:"light drizzle",
+53:"drizzle",
+55:"heavy drizzle",
+61:"light rain",
+63:"rain",
+65:"heavy rain",
+71:"light snow",
+73:"snow",
+75:"heavy snow",
+80:"light rain showers",
+81:"rain showers",
+82:"heavy rain showers",
+95:"thunderstorm",
+96:"thunderstorm with hail",
+99:"thunderstorm with heavy hail"
+};
+
+return map[code]||"unknown conditions";
+
+}
+
+
+/* =========================================================
+   NEWS
+========================================================= */
+
+async function playNews(minutes){
+
+statusText.textContent="Loading latest news...";
+
+let articles=[];
+
+
+/*
+   Google News RSS is used here so the basic prototype
+   does not require an API key.
+*/
+
+try{
+
+const response=await fetch(
+"https://news.google.com/rss?hl=en-IN&gl=IN&ceid=IN:en"
+);
+
+const xml=await response.text();
+
+const parser=new DOMParser();
+
+const doc=parser.parseFromString(xml,"text/xml");
+
+const items=[...doc.querySelectorAll("item")];
+
+articles=items.slice(0,12).map(function(item){
+
+return{
+title:item.querySelector("title")?.textContent||"Latest headline"
+};
+
+});
+
+}catch(e){
+
+articles=[];
+
+}
+
+statusText.textContent="Ready";
+
+if(!articles.length){
+
+speak(
+"I could not load the latest news. Please check your internet connection."
+);
+
+return;
+
+}
+
+speak(
+"Here are the latest news headlines."
+);
+
+let index=0;
+
+const end=Date.now()+minutes*60000;
+
+function next(){
+
+if(Date.now()>=end||index>=articles.length){
+
+speak("News playback finished.");
+
+return;
+
+}
+
+const headline=articles[index++].title;
+
+speak(headline);
+
+newsTimer=setTimeout(next,5500);
+
+}
+
+next();
+
+}
+
+
+/* =========================================================
+   MINUTES
+========================================================= */
+
+function getMinutes(text){
+
+const match=text.match(
+/(\d+)\s*(minute|minutes|min)/
+);
+
+return match?parseInt(match[1]):0;
+
+}
+
+
+/* =========================================================
+   CONTACTS
+========================================================= */
+
+function saveContact(){
+
+const name=document.getElementById("name").value.trim();
+
+let phone=document.getElementById("phone").value.trim();
+
+if(!name||!phone){
+
+speak("Please enter a contact name and phone number.");
+
+return;
+
+}
+
+phone=phone.replace(/[^\d+]/g,"");
+
+if(phone.startsWith("0"))
+phone="+91"+phone.substring(1);
+
+if(!phone.startsWith("+"))
+phone="+91"+phone;
+
+contacts.push({
+name:name,
+phone:phone
+});
+
+localStorage.setItem(
+"accessai_contacts",
+JSON.stringify(contacts)
+);
+
+document.getElementById("name").value="";
+document.getElementById("phone").value="";
+
+renderContacts();
+
+speak(name+" has been saved.");
+
+}
+
+
+function renderContacts(){
+
+const box=document.getElementById("contacts");
+
+box.innerHTML="";
+
+if(!contacts.length){
+
+box.innerHTML=
+"<p style='color:#879caf'>No contacts saved yet.</p>";
+
+return;
+
+}
+
+contacts.forEach(function(c,index){
+
+const div=document.createElement("div");
+
+div.className="contact";
+
+div.innerHTML=
+"<div class='contactInfo'>"+
+"<b>"+escapeHTML(c.name)+"</b>"+
+"<small>"+escapeHTML(c.phone)+"</small>"+
+"</div>"+
+"<div class='contactButtons'>"+
+"<button onclick='callContactByIndex("+index+")'>Call</button>"+
+"<button onclick='whatsappByIndex("+index+")'>WA</button>"+
+"<button onclick='deleteContact("+index+")'>×</button>"+
+"</div>";
+
+box.appendChild(div);
+
+});
+
+}
+
+
+function escapeHTML(text){
+
+return String(text).replace(/[&<>"']/g,function(c){
+
+return{
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#39;"
+}[c];
+
+});
+
+}
+
+
+/* =========================================================
+   FIND CONTACT NATURALLY
+========================================================= */
+
+function findContact(text){
+
+const lower=text.toLowerCase();
+
+return contacts.find(function(c){
+
+return lower.includes(c.name.toLowerCase());
+
+});
+
+}
+
+
+/* =========================================================
+   CALL
+========================================================= */
+
+function callContact(name){
+
+const contact=findContact(name);
+
+if(!contact){
+
+speak(
+"I could not find "+
+name+
+" in your saved contacts."
+);
+
+return;
+
+}
+
+speak("Calling "+contact.name+".");
+
+setTimeout(function(){
+
+window.location.href="tel:"+contact.phone;
+
+},700);
+
+}
+
+
+function callContactByIndex(index){
+
+const c=contacts[index];
+
+callContact(c.name);
+
+}
+
+
+/* =========================================================
+   WHATSAPP NATURAL MESSAGE
+========================================================= */
+
+function messageCommand(text){
+
+/*
+Examples:
+
+message Rahul how are you
+message Rahul, how are you
+send Rahul a message saying hello
+WhatsApp Rahul hello
+*/
+
+let cleaned=text
+.replace(/^send /,"")
+.replace(/^message /,"")
+.replace(/^whatsapp /,"")
+.trim();
+
+let contact=null;
+
+for(const c of contacts){
+
+const name=c.name.toLowerCase();
+
+if(cleaned.startsWith(name)){
+
+contact=c;
+
+cleaned=cleaned.substring(name.length).trim();
+
+break;
+
+}
+
+}
+
+if(!contact){
+
+speak(
+"I could not find that person in your saved contacts."
+);
+
+return;
+
+}
+
+
+/* Remove common message words */
+
+cleaned=cleaned
+.replace(/^a message/i,"")
+.replace(/^message/i,"")
+.replace(/^saying/i,"")
+.replace(/^that/i,"")
+.replace(/^is/i,"")
+.replace(/^[:,-]/,"")
+.trim();
+
+
+if(!cleaned){
+
+speak(
+"Please tell me what message you want to send to "+
+contact.name+"."
+);
+
+return;
+
+}
+
+sendWhatsApp(contact,cleaned);
+
+}
+
+
+function sendWhatsApp(contact,message){
+
+const phone=contact.phone.replace(/\+/g,"");
+
+const url=
+"https://wa.me/"+
+phone+
+"?text="+
+encodeURIComponent(message);
+
+speak(
+"Preparing your WhatsApp message to "+
+contact.name+"."
+);
+
+setTimeout(function(){
+
+window.open(url,"_blank");
+
+},800);
+
+}
+
+
+function whatsappByIndex(index){
+
+const c=contacts[index];
+
+const message=prompt(
+"What message do you want to send to "+c.name+"?"
+);
+
+if(message){
+
+sendWhatsApp(c,message);
+
+}
+
+}
+
+
+function deleteContact(index){
+
+const c=contacts[index];
+
+contacts.splice(index,1);
+
+localStorage.setItem(
+"accessai_contacts",
+JSON.stringify(contacts)
+);
+
+renderContacts();
+
+speak(c.name+" has been deleted.");
+
+}
+
+
+/* =========================================================
+   CALCULATOR
+========================================================= */
+
+function calculate(text){
+
+let expression=text
+.toLowerCase()
+.replace(/calculate/g,"")
+.replace(/calculator/g,"")
+.replace(/what is/g,"")
+.replace(/plus/g,"+")
+.replace(/minus/g,"-")
+.replace(/multiplied by/g,"*")
+.replace(/times/g,"*")
+.replace(/divided by/g,"/")
+.replace(/divide by/g,"/")
+.replace(/[^0-9+\-*/().%\s]/g,"")
+.trim();
+
+if(!expression){
+
+speak(
+"Please say a calculation such as twenty five plus ten."
+);
+
+return;
+
+}
+
+try{
+
+const result=Function(
+'"use strict";return('+expression+')'
+)();
+
+if(!Number.isFinite(result))
+throw new Error();
+
+speak("The answer is "+result+".");
+
+}catch(e){
+
+speak("I could not calculate that.");
+
+}
+
+}
+
+
+/* =========================================================
+   OBJECT SCANNER
+========================================================= */
+
+async function openScanner(){
+
+const scanner=document.getElementById("scanner");
+
+scanner.classList.add("show");
+
+scanner.scrollIntoView({
+behavior:"smooth"
+});
+
+if(!navigator.mediaDevices||
+!navigator.mediaDevices.getUserMedia){
+
+speak(
+"Camera access is not supported by this browser."
+);
+
+return;
+
+}
+
+try{
+
+document.getElementById("mlStatus").textContent=
+"Opening camera...";
+
+stream=await navigator.mediaDevices.getUserMedia({
+
+video:{
+facingMode:{ideal:"environment"}
+},
+
+audio:false
+
+});
+
+const video=document.getElementById("video");
+
+video.srcObject=stream;
+
+await video.play();
+
+document.getElementById("mlStatus").textContent=
+"Loading AI object detection model...";
+
+if(!model){
+
+model=await cocoSsd.load({
+base:"lite_mobilenet_v2"
+});
+
+}
+
+document.getElementById("mlStatus").textContent=
+"AI scanner is ready.";
+
+detectObjects();
+
+}catch(e){
+
+document.getElementById("mlStatus").textContent=
+"Camera could not start.";
+
+speak(
+"Please allow camera permission and make sure the website is running on HTTPS."
+);
+
+}
+
+}
+
+
+async function detectObjects(){
+
+if(!model)return;
+
+const video=document.getElementById("video");
+
+if(video.readyState<2){
+
+detectionTimer=setTimeout(
+detectObjects,
+800
+);
+
+return;
+
+}
+
+try{
+
+const predictions=
+await model.detect(
+video,
+8,
+.55
+);
+
+detected=predictions;
+
+drawObjects(predictions);
+
+const names=[
+...new Set(
+predictions.map(function(p){
+return p.class;
+})
+)
+];
+
+document.getElementById("objects").textContent=
+names.length
+?"Detected: "+names.join(", ")
+:"No known object detected.";
+
+}catch(e){}
+
+detectionTimer=setTimeout(
+detectObjects,
+1600
+);
+
+}
+
+
+function drawObjects(predictions){
+
+const video=document.getElementById("video");
+
+const canvas=document.getElementById("canvas");
+
+if(!video.videoWidth)return;
+
+canvas.width=video.videoWidth;
+canvas.height=video.videoHeight;
+
+const ctx=canvas.getContext("2d");
+
+ctx.clearRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+ctx.strokeStyle="#59d8ff";
+ctx.fillStyle="#59d8ff";
+ctx.lineWidth=3;
+ctx.font="17px Arial";
+
+predictions.forEach(function(p){
+
+const x=p.bbox[0];
+const y=p.bbox[1];
+const w=p.bbox[2];
+const h=p.bbox[3];
+
+ctx.strokeRect(x,y,w,h);
+
+const label=
+p.class+
+" "+
+Math.round(p.score*100)+
+"%";
+
+ctx.fillText(
+label,
+x+5,
+Math.max(18,y-7)
+);
+
+});
+
+}
+
+
+function readObjects(){
+
+if(!detected.length){
+
+speak("I cannot identify an object right now.");
+
+return;
+
+}
+
+const names=[
+...new Set(
+detected.map(function(p){
+return p.class;
+})
+)
+];
+
+speak(
+"I can see "+
+names.join(", ")+
+"."
+);
+
+}
+
+
+/* =========================================================
+   HELP
+========================================================= */
+
+function help(){
+
+speak(
+"You can say: What is the time? What is today's date? Where am I? What's the weather? Give me the latest news. Play news for five minutes. Open object scanner. Call Rahul. Message Rahul how are you. Calculate twenty five plus ten. Open YouTube. Or open Google."
+);
+
+}
+
+
+/* =========================================================
+   STOP
+========================================================= */
+
+function stopEverything(){
+
+window.speechSynthesis.cancel();
+
+if(newsTimer){
+
+clearTimeout(newsTimer);
+
+newsTimer=null;
+
+}
+
+if(detectionTimer){
+
+clearTimeout(detectionTimer);
+
+detectionTimer=null;
+
+}
+
+statusText.textContent="Ready";
+
+voiceText.textContent="Tap to Speak";
+
+voice.classList.remove("listening");
+
+}
+
+
+/* =========================================================
+   MANUAL TOOL COMMANDS
+========================================================= */
+
+function command(type){
+
+if(type==="time")tellTime();
+
+if(type==="date")tellDate();
+
+if(type==="location")getLocation();
+
+if(type==="weather")getWeather();
+
+if(type==="news")playNews(1);
+
+if(type==="scanner")openScanner();
+
+}
+
+
+/* =========================================================
+   HELP BUTTON
+========================================================= */
+
+document.getElementById("help").onclick=help;
+
+
+/* =========================================================
+   START
+========================================================= */
+
+renderContacts();
+
+setupVoice();
+
+</script>
+
 </body>
 </html>
