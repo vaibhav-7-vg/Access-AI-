@@ -1,9 +1,18 @@
+
 {
   "name": "AccessAI",
   "short_name": "AccessAI",
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#070b14",
   "theme_color": "#070b14",
-  "description": "Accessibility assistance tools"
+  "description": "Accessibility assistance tools for voice, communication, navigation and daily tasks.",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }
