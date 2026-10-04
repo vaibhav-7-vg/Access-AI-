@@ -7,38 +7,42 @@
 <meta name="description" content="AccessAI accessibility assistant">
 <link rel="manifest" href="manifest.json">
 <title>AccessAI</title>
+
 <style>
-:root{--bg:#07101d;--card:#111d31;--line:#2a4262;--text:#fff;--muted:#b6c5da;--blue:#56bdff;--blue2:#246fe0;--green:#69e6a0;--red:#ff8b94;--focus:#ffe36a}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#102b4d 0,#07101d 42%,#050913 100%);color:var(--text);font:17px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}button,input{font:inherit}button{min-height:56px;border:2px solid transparent;border-radius:16px;padding:12px 15px;background:var(--card);color:#fff;font-weight:800;cursor:pointer}button:focus-visible,input:focus-visible,a:focus-visible{outline:4px solid var(--focus);outline-offset:3px}.app{max-width:780px;margin:auto;padding:max(16px,env(safe-area-inset-top)) 16px 36px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:1.45rem;font-weight:950;letter-spacing:.2px}.brand b{color:var(--blue)}.ready{font-size:.8rem;color:var(--green);font-weight:800}.ready:before{content:"● ";font-size:.9rem}h1{font-size:1.85rem;line-height:1.15;margin:28px 0 7px}.subtitle,.hint{color:var(--muted);margin:0}.voice{width:100%;min-height:185px;margin:24px 0 12px;border-radius:28px;background:linear-gradient(135deg,#0e73b5,#3747a5);border-color:#8bd5ff;font-size:1.25rem;box-shadow:0 12px 35px #0008}.voice[aria-pressed="true"]{background:linear-gradient(135deg,#087b68,#156c98);border-color:#78f0d4}.voice small{display:block;font-size:.86rem;margin-top:8px;font-weight:650}.panel{margin-top:14px;padding:16px;background:#0e1a2dE8;border:1px solid var(--line);border-radius:19px;box-shadow:0 8px 25px #0003}.output{min-height:64px;white-space:pre-wrap}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.tool{text-align:left;min-height:108px;border-color:var(--line)}.tool:hover{border-color:var(--blue)}.tool strong{display:block;font-size:1rem}.tool span{display:block;color:var(--muted);font-size:.84rem;margin-top:4px}.row{display:flex;gap:10px;flex-wrap:wrap}.row button{flex:1}.primary{background:var(--blue);color:#05111e}.danger{background:#5f2d3d}.hide{display:none!important}.news{margin:10px 0 0;padding:0;list-style:none}.news a{display:block;padding:13px 1px;color:#fff;text-decoration:none;border-bottom:1px solid var(--line)}.news a:focus-visible{background:var(--focus);color:#000}.camera{width:100%;max-height:400px;object-fit:cover;margin-top:12px;border-radius:14px;background:#000}.detect{color:var(--green);font-weight:800}.contact{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.contact button{min-height:43px;padding:7px 9px;font-size:.86rem}input{width:100%;min-height:54px;padding:10px;margin:6px 0;border:2px solid var(--line);border-radius:12px;background:#071221;color:#fff}.footer{color:var(--muted);font-size:.82rem;margin:28px 0 0}.toast{position:fixed;z-index:20;left:50%;bottom:18px;transform:translateX(-50%);max-width:92%;padding:12px 16px;background:#fff;color:#07101d;border-radius:12px;font-weight:800}@media(min-width:620px){.grid{grid-template-columns:repeat(3,1fr)}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+:root{--bg:#07101d;--card:#111d31;--line:#2a4262;--text:#fff;--muted:#b6c5da;--blue:#56bdff;--green:#69e6a0;--yellow:#ffe36a}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#12345c 0,#07101d 48%,#040811 100%);color:var(--text);font:17px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input{font:inherit}button{min-height:56px;padding:12px 15px;border:2px solid transparent;border-radius:16px;background:var(--card);color:#fff;font-weight:800;cursor:pointer}button:focus-visible,input:focus-visible,a:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}.app{max-width:780px;margin:auto;padding:max(16px,env(safe-area-inset-top)) 16px 35px}.top{display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{font-size:1.45rem;font-weight:950}.brand b{color:var(--blue)}.state{color:var(--green);font-size:.82rem;font-weight:800}.state:before{content:"● ";font-size:.9rem}h1{font-size:1.85rem;line-height:1.15;margin:28px 0 7px}h2{font-size:1.18rem;margin:27px 0 11px}.muted{margin:0;color:var(--muted)}.voice{width:100%;min-height:185px;margin:24px 0 12px;border-radius:28px;background:linear-gradient(135deg,#0d73b7,#3c48a4);border-color:#91d8ff;font-size:1.25rem;box-shadow:0 12px 34px #0008}.voice[aria-pressed="true"]{background:linear-gradient(135deg,#087867,#176e9a);border-color:#78efd5}.voice small{display:block;margin-top:8px;font-size:.86rem;font-weight:650}.panel{margin-top:14px;padding:16px;background:#101d30e8;border:1px solid var(--line);border-radius:19px}.output{min-height:66px;white-space:pre-wrap}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.tool{text-align:left;min-height:108px;border-color:var(--line)}.tool strong{display:block}.tool span{display:block;margin-top:4px;color:var(--muted);font-size:.84rem}.row{display:flex;flex-wrap:wrap;gap:10px}.row button{flex:1}.primary{background:var(--blue);color:#05111d}.hide{display:none!important}.news{padding:0;margin:10px 0 0;list-style:none}.news a{display:block;padding:13px 1px;color:#fff;text-decoration:none;border-bottom:1px solid var(--line)}.camera{width:100%;max-height:400px;object-fit:cover;margin-top:12px;border-radius:14px;background:#000}.detect{color:var(--green);font-weight:800}.contact{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:11px 0;border-bottom:1px solid var(--line)}.contact button{min-height:43px;padding:7px 9px;font-size:.85rem}input{width:100%;min-height:54px;margin:6px 0;padding:10px;border:2px solid var(--line);border-radius:12px;background:#071221;color:#fff}.footer{margin-top:28px;color:var(--muted);font-size:.82rem}.toast{position:fixed;z-index:9;left:50%;bottom:18px;transform:translateX(-50%);max-width:92%;padding:12px 16px;border-radius:12px;background:#fff;color:#07101d;font-weight:800}@media(min-width:620px){.grid{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
+
 <body>
 <main class="app">
 <header class="top">
 <div class="brand">Access<b>AI</b></div>
-<div class="ready" id="state" aria-live="polite">Ready</div>
+<div id="state" class="state" aria-live="polite">Ready</div>
 </header>
 
 <h1>Your world, within reach.</h1>
-<p class="subtitle">Tap once to keep the assistant listening. Tap again to stop.</p>
+<p class="muted">Tap once to keep the assistant listening. Tap again to stop.</p>
 
 <button id="voice" class="voice" aria-pressed="false" aria-label="Start AccessAI voice assistant">
 🎙️ Tap to Speak
-<small id="voiceText">Ask for time, weather, location, news, contacts, or calculations.</small>
+<small id="voiceHint">Ask for time, weather, location, news, contacts, or calculations.</small>
 </button>
 
-<p id="answer" class="panel output" role="status" aria-live="polite">I am ready to help.</p>
+<p id="answer" class="panel output" role="status" aria-live="polite">
+I am ready to help.
+</p>
 
 <h2>Quick Access</h2>
 
 <div class="grid" aria-label="Accessibility tools">
-<button class="tool" data-tool="news"><strong>Latest News</strong><span>Listen to headlines</span></button>
-<button class="tool" data-tool="location"><strong>My Location</strong><span>Current position</span></button>
-<button class="tool" data-tool="time"><strong>Current Time</strong><span>Hear the time</span></button>
-<button class="tool" data-tool="date"><strong>Today’s Date</strong><span>Hear the date</span></button>
-<button class="tool" data-tool="weather"><strong>Weather</strong><span>Local conditions</span></button>
-<button class="tool" data-tool="scanner"><strong>Object Scanner</strong><span>AI camera detection</span></button>
-<button class="tool" data-tool="contacts"><strong>Contacts</strong><span>Call and message</span></button>
-<button class="tool" data-tool="calculator"><strong>Calculator</strong><span>Voice calculation</span></button>
+<button class="tool" data-action="news"><strong>Latest News</strong><span>Listen to headlines</span></button>
+<button class="tool" data-action="location"><strong>My Location</strong><span>Current position</span></button>
+<button class="tool" data-action="time"><strong>Current Time</strong><span>Hear the time</span></button>
+<button class="tool" data-action="date"><strong>Today’s Date</strong><span>Hear the date</span></button>
+<button class="tool" data-action="weather"><strong>Weather</strong><span>Local conditions</span></button>
+<button class="tool" data-action="scanner"><strong>Object Scanner</strong><span>AI camera detection</span></button>
+<button class="tool" data-action="contacts"><strong>Contacts</strong><span>Call and message</span></button>
+<button class="tool" data-action="calculator"><strong>Calculator</strong><span>Voice calculation</span></button>
 </div>
 
 <section id="newsPanel" class="panel hide">
@@ -49,18 +53,18 @@
 <button data-news="Business">Business</button>
 <button data-news="Science">Science</button>
 </div>
-<p id="newsStatus" class="hint" aria-live="polite">Choose a category.</p>
+<p id="newsStatus" class="muted" aria-live="polite">Choose a category.</p>
 <ul id="newsList" class="news"></ul>
 </section>
 
 <section id="scannerPanel" class="panel hide">
 <h2>Object Scanner</h2>
-<p class="hint">Object detection is assistance only. It does not replace safe judgement, a mobility aid, or human support.</p>
+<p class="muted">Object detection is assistance only. It does not replace safe judgement, a mobility aid, or human support.</p>
 <div class="row">
 <button id="startCamera" class="primary">Start Camera</button>
 <button id="stopCamera">Stop Camera</button>
 </div>
-<video id="camera" class="camera hide" autoplay muted playsinline aria-label="Live camera preview"></video>
+<video id="camera" class="camera hide" autoplay muted playsinline></video>
 <p id="detected" class="detect" aria-live="polite">Camera is not running.</p>
 </section>
 
@@ -74,7 +78,7 @@
 
 <section id="calculatorPanel" class="panel hide">
 <h2>Calculator</h2>
-<p class="hint">Examples: 125 multiplied by 48, square root of 144, 15 percent of 2400, or open bracket 25 plus 15 close bracket multiplied by 4.</p>
+<p class="muted">Try: 125 multiplied by 48, square root of 144, 15 percent of 2400, or 2 to the power of 10.</p>
 <input id="calculationInput" placeholder="Type a calculation" aria-label="Calculation">
 <button id="calculateButton" class="primary">Calculate</button>
 </section>
@@ -89,106 +93,143 @@
 <script src="https://cdn.jsdelivr.net/npm/mathjs@14.1.0/lib/browser/math.js"></script>
 
 <script>
-const $=id=>document.getElementById(id);
-const panels=["newsPanel","scannerPanel","contactsPanel","calculatorPanel"];
+const el=id=>document.getElementById(id);
+const panelIds=["newsPanel","scannerPanel","contactsPanel","calculatorPanel"];
 
 let recognition=null;
-let micEnabled=false;
-let recognitionRunning=false;
-let assistantSpeaking=false;
+let micOn=false;
+let recognitionOn=false;
+let speaking=false;
 let restartTimer=null;
 let cameraStream=null;
-let objectModel=null;
-let detectionTimer=null;
-let touchStartX=0;
+let model=null;
+let scanTimer=null;
+let touchX=0;
 
-function setStatus(text){$("state").textContent=text}
-function showPanel(id){panels.forEach(panel=>$(panel).classList.toggle("hide",panel!==id));$(id).scrollIntoView({behavior:"smooth",block:"start"})}
-function toast(text){$("toast").textContent=text;$("toast").classList.remove("hide");setTimeout(()=>$("toast").classList.add("hide"),3500)}
-function setVoiceButton(on,text){$("voice").setAttribute("aria-pressed",on?"true":"false");$("voiceText").textContent=text}
+function status(text){
+el("state").textContent=text;
+}
+
+function showPanel(id){
+panelIds.forEach(item=>el(item).classList.toggle("hide",item!==id));
+el(id).scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function showToast(text){
+el("toast").textContent=text;
+el("toast").classList.remove("hide");
+setTimeout(()=>el("toast").classList.add("hide"),3500);
+}
+
+function voiceUI(on,text){
+el("voice").setAttribute("aria-pressed",on?"true":"false");
+el("voiceHint").textContent=text;
+}
 
 function stopRecognition(){
 clearTimeout(restartTimer);
-if(recognition&&recognitionRunning){try{recognition.abort()}catch(error){}}
+if(recognition&&recognitionOn){
+try{recognition.abort()}catch(error){}
+}
 }
 
 function restartRecognition(){
 clearTimeout(restartTimer);
-if(!micEnabled||assistantSpeaking||recognitionRunning)return;
+if(!micOn||speaking||recognitionOn)return;
 restartTimer=setTimeout(startRecognition,500);
 }
 
 function speak(text){
-$("answer").textContent=text;
+el("answer").textContent=text;
 speechSynthesis.cancel();
 
-if(micEnabled&&recognitionRunning)stopRecognition();
+if(micOn&&recognitionOn)stopRecognition();
 
-assistantSpeaking=true;
-setStatus("Speaking");
+speaking=true;
+status("Speaking");
 
 const speech=new SpeechSynthesisUtterance(text);
 speech.lang="en-IN";
 speech.rate=.92;
 
 speech.onend=()=>{
-assistantSpeaking=false;
-if(micEnabled){
-setStatus("Listening");
-setVoiceButton(true,"AI is listening. Tap to stop.");
+speaking=false;
+if(micOn){
+status("Listening");
+voiceUI(true,"AI is listening. Tap to stop.");
 restartRecognition();
-}else setStatus("Ready");
+}else{
+status("Ready");
+}
 };
 
 speech.onerror=speech.onend;
 speechSynthesis.speak(speech);
 }
 
-function currentTime(){
-const value=new Intl.DateTimeFormat("en-IN",{hour:"numeric",minute:"2-digit"}).format(new Date());
-speak("The time is "+value);
+function timeCommand(){
+const text=new Intl.DateTimeFormat("en-IN",{hour:"numeric",minute:"2-digit"}).format(new Date());
+speak("The time is "+text);
 }
 
-function currentDate(){
-const value=new Intl.DateTimeFormat("en-IN",{weekday:"long",year:"numeric",month:"long",day:"numeric"}).format(new Date());
-speak("Today is "+value);
+function dateCommand(){
+const text=new Intl.DateTimeFormat("en-IN",{weekday:"long",year:"numeric",month:"long",day:"numeric"}).format(new Date());
+speak("Today is "+text);
 }
 
-function locationFailure(error){
-const message={
+function locationError(error){
+const messages={
 1:"Location permission was denied. Please allow location access in browser settings.",
 2:"Your location is unavailable. Turn on phone location and try again.",
-3:"Location request timed out. Check GPS, Wi-Fi, or mobile data and try again."
+3:"Location request timed out. Check GPS, Wi Fi, or mobile data and try again."
 };
-speak(message[error.code]||"I could not get your location. Please try again.");
+speak(messages[error.code]||"I could not get your location. Please try again.");
 }
 
-function getLocation(){
-if(!window.isSecureContext){speak("Location needs a secure HTTPS website. Do not open AccessAI through the phone file manager.");return}
-if(!navigator.geolocation){speak("Location is not supported by this browser.");return}
+function locationCommand(){
+if(!window.isSecureContext){
+speak("Location needs a secure HTTPS website. Do not open AccessAI through the phone file manager.");
+return;
+}
+
+if(!navigator.geolocation){
+speak("Location is not supported by this browser.");
+return;
+}
 
 speak("Finding your location.");
 
 navigator.geolocation.getCurrentPosition(async position=>{
-const lat=position.coords.latitude;
-const lon=position.coords.longitude;
-const fallback="Your approximate coordinates are "+lat.toFixed(4)+", "+lon.toFixed(4)+".";
+const latitude=position.coords.latitude;
+const longitude=position.coords.longitude;
+const fallback="Your approximate coordinates are "+latitude.toFixed(4)+", "+longitude.toFixed(4)+".";
 
 try{
-const url="https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+lat+"&lon="+lon+"&zoom=18&addressdetails=1";
+const url="https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+latitude+"&lon="+longitude+"&zoom=18&addressdetails=1";
 const response=await fetch(url,{headers:{"Accept-Language":"en"}});
-if(!response.ok)throw new Error("Reverse lookup failed");
+if(!response.ok)throw new Error("Location lookup failed");
+
 const data=await response.json();
 const address=data.address||{};
 const place=address.neighbourhood||address.suburb||address.village||address.town||address.city||address.county||data.display_name;
+
 speak(place?"Your approximate location is "+place+".":fallback);
-}catch(error){speak(fallback)}
-},locationFailure,{enableHighAccuracy:false,timeout:20000,maximumAge:300000});
+}catch(error){
+speak(fallback);
+}
+},locationError,{enableHighAccuracy:false,timeout:20000,maximumAge:300000});
 }
 
-function getWeather(){
-if(!window.isSecureContext){speak("Weather needs a secure HTTPS website because it uses your location.");return}
-if(!navigator.geolocation){speak("Weather needs location support in your browser.");return}
+function weatherCommand(){
+if(!window.isSecureContext){
+speak("Weather needs a secure HTTPS website because it uses your location.");
+return;
+}
+
+if(!navigator.geolocation){
+speak("Weather needs location support in your browser.");
+return;
+}
 
 speak("Getting local weather.");
 
@@ -197,110 +238,166 @@ try{
 const url="https://api.open-meteo.com/v1/forecast?latitude="+position.coords.latitude+"&longitude="+position.coords.longitude+"&current=temperature_2m,apparent_temperature,weather_code&timezone=auto";
 const response=await fetch(url);
 if(!response.ok)throw new Error("Weather failed");
+
 const data=await response.json();
 const current=data.current;
-const names={0:"clear skies",1:"mainly clear",2:"partly cloudy",3:"overcast",45:"foggy",48:"foggy",51:"light drizzle",53:"drizzle",55:"heavy drizzle",61:"light rain",63:"rain",65:"heavy rain",71:"light snow",73:"snow",80:"rain showers",81:"rain showers",82:"heavy rain showers",95:"thunderstorms"};
-speak("It is "+Math.round(current.temperature_2m)+" degrees Celsius and "+(names[current.weather_code]||"unknown conditions")+". It feels like "+Math.round(current.apparent_temperature)+" degrees.");
-}catch(error){speak("Weather could not be loaded. Check your internet connection and try again.")}
-},locationFailure,{enableHighAccuracy:false,timeout:20000,maximumAge:300000});
+
+const weatherNames={
+0:"clear skies",
+1:"mainly clear",
+2:"partly cloudy",
+3:"overcast",
+45:"foggy",
+48:"foggy",
+51:"light drizzle",
+53:"drizzle",
+55:"heavy drizzle",
+61:"light rain",
+63:"rain",
+65:"heavy rain",
+71:"light snow",
+73:"snow",
+80:"rain showers",
+81:"rain showers",
+82:"heavy rain showers",
+95:"thunderstorms"
+};
+
+speak("It is "+Math.round(current.temperature_2m)+" degrees Celsius and "+(weatherNames[current.weather_code]||"unknown conditions")+". It feels like "+Math.round(current.apparent_temperature)+" degrees.");
+}catch(error){
+speak("Weather could not be loaded. Check your internet connection and try again.");
+}
+},locationError,{enableHighAccuracy:false,timeout:20000,maximumAge:300000});
 }
 
-async function loadNews(category="India"){
+async function newsCommand(category="India"){
 showPanel("newsPanel");
-$("newsStatus").textContent="Loading "+category+" headlines…";
-$("newsList").innerHTML="";
+el("newsStatus").textContent="Loading "+category+" headlines…";
+el("newsList").innerHTML="";
 
 try{
 const rss="https://news.google.com/rss/search?q="+encodeURIComponent(category+" news India")+"&hl=en-IN&gl=IN&ceid=IN:en";
 const api="https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(rss);
 const response=await fetch(api);
-if(!response.ok)throw new Error("News failed");
+
+if(!response.ok)throw new Error("News request failed");
+
 const data=await response.json();
-if(data.status!=="ok"||!data.items||!data.items.length)throw new Error("No news");
+
+if(data.status!=="ok"||!data.items||!data.items.length){
+throw new Error("No news");
+}
 
 const items=data.items.slice(0,8);
-$("newsStatus").textContent=category+" headlines. Select a headline to open it.";
+
+el("newsStatus").textContent=category+" headlines. Select a headline to open it.";
 
 items.forEach((item,index)=>{
 const li=document.createElement("li");
 const link=document.createElement("a");
+
 link.href=item.link;
 link.target="_blank";
 link.rel="noopener";
 link.textContent=(index+1)+". "+item.title;
+
 li.append(link);
-$("newsList").append(li);
+el("newsList").append(li);
 });
 
 speak("Here are the latest "+category+" headlines. "+items.slice(0,4).map(item=>item.title).join(". "));
 }catch(error){
-$("newsStatus").textContent="News could not load. Check your internet connection and try again.";
+el("newsStatus").textContent="News could not load. Check your internet connection and try again.";
 speak("News could not load right now. Please check your internet connection and try again.");
 }
 }
 
-function prepareMath(text){
-let value=text.toLowerCase()
-.replace(/what is|calculate|please|answer|equals|equal to/g,"")
-.replace(/multiplied by|multiply by|times/g,"*")
-.replace(/divided by|divide by|over/g,"/")
-.replace(/plus|add/g,"+")
-.replace(/minus|subtract/g,"-")
-.replace(/to the power of|raised to|power of/g,"^")
-.replace(/square root of/g,"sqrt(")
-.replace(/cube root of/g,"cbrt(")
-.replace(/percent of/g,"% *")
-.replace(/percent/g,"%")
-.replace(/open bracket|open parenthesis/g,"(")
-.replace(/close bracket|close parenthesis/g,")")
-.trim();
+function mathText(text){
+let value=text.toLowerCase();
+
+value=value.replace(/what is/g,"");
+value=value.replace(/calculate/g,"");
+value=value.replace(/please/g,"");
+value=value.replace(/multiplied by/g,"*");
+value=value.replace(/multiply by/g,"*");
+value=value.replace(/times/g,"*");
+value=value.replace(/divided by/g,"/");
+value=value.replace(/divide by/g,"/");
+value=value.replace(/plus/g,"+");
+value=value.replace(/minus/g,"-");
+value=value.replace(/to the power of/g,"^");
+value=value.replace(/power of/g,"^");
+value=value.replace(/square root of/g,"sqrt(");
+value=value.replace(/cube root of/g,"cbrt(");
+value=value.replace(/percent of/g,"% *");
+value=value.replace(/percent/g,"%");
+value=value.replace(/open bracket/g,"(");
+value=value.replace(/close bracket/g,")");
+value=value.trim();
 
 if(value.startsWith("sqrt(")&&!value.endsWith(")"))value+=")";
 if(value.startsWith("cbrt(")&&!value.endsWith(")"))value+=")";
 
-value=value.replace(/\bsin (d+(.d+)?)/g,"sin($1 deg)");
-value=value.replace(/\bcos (d+(.d+)?)/g,"cos($1 deg)");
-value=value.replace(/\btan (d+(.d+)?)/g,"tan($1 deg)");
-value=value.replace(/\blog (d+(.d+)?)/g,"log10($1)");
-
 return value;
 }
 
-function calculate(text){
+function calculateCommand(text){
 try{
-if(!window.math)throw new Error("Math.js unavailable");
-const expression=prepareMath(text);
-if(!expression||!/^[0-9a-z+-*/^().,%s]+$/i.test(expression))throw new Error("Invalid expression");
+if(!window.math)throw new Error("Math library missing");
+
+const expression=mathText(text);
+
+if(!expression||!/^[0-9a-z+*/^().,% -]+$/i.test(expression)){
+throw new Error("Invalid expression");
+}
 
 const result=math.evaluate(expression);
-if(result===undefined||result===null||typeof result==="function")throw new Error("Invalid result");
+
+if(result===undefined||result===null||typeof result==="function"){
+throw new Error("Invalid result");
+}
 
 const answer=typeof result==="number"?Number(result.toFixed(10)):String(result);
+
 speak("The answer is "+answer);
 }catch(error){
-speak("I could not calculate that. Try examples such as square root of 144, 15 percent of 2400, or open bracket 25 plus 15 close bracket multiplied by 4.");
+speak("I could not calculate that. Try square root of 144, 15 percent of 2400, or 2 to the power of 10.");
 }
 }
 
-function getContacts(){
-try{return JSON.parse(localStorage.accessAIContacts||"[]")}catch(error){return[]}
+function contacts(){
+try{
+return JSON.parse(localStorage.getItem("accessai_contacts")||"[]");
+}catch(error){
+return[];
+}
 }
 
-function escapeHTML(text){
+function saveContacts(list){
+localStorage.setItem("accessai_contacts",JSON.stringify(list));
+renderContacts();
+}
+
+function escapeText(text){
 const div=document.createElement("div");
 div.textContent=text;
 return div.innerHTML;
 }
 
 function renderContacts(){
-const contacts=getContacts();
-$("contactList").innerHTML=contacts.length?"":'<p class="hint">No saved contacts yet.</p>';
+const list=contacts();
 
-contacts.forEach((contact,index)=>{
+el("contactList").innerHTML=list.length
+?""
+:'<p class="muted">No saved contacts yet.</p>';
+
+list.forEach((contact,index)=>{
 const item=document.createElement("div");
+
 item.className="contact";
-item.innerHTML="<span><strong>"+escapeHTML(contact.n)+"</strong><br><small>"+escapeHTML(contact.p)+'</small></span><span><button data-call="'+index+'">Call</button> <button data-whatsapp="'+index+'">WhatsApp</button></span>';
-$("contactList").append(item);
+item.innerHTML="<span><strong>"+escapeText(contact.name)+"</strong><br><small>"+escapeText(contact.phone)+'</small></span><span><button data-call="'+index+'">Call</button> <button data-message="'+index+'">WhatsApp</button></span>';
+
+el("contactList").append(item);
 });
 }
 
@@ -309,114 +406,215 @@ showPanel("contactsPanel");
 renderContacts();
 }
 
+function normalizePhone(phone){
+let number=String(phone).replace(/[^0-9+]/g,"");
+
+if(number.startsWith("0")){
+number="+91"+number.slice(1);
+}
+
+if(!number.startsWith("+")){
+number="+91"+number;
+}
+
+return number;
+}
+
 function openWhatsApp(contact,message){
-const phone=String(contact.p).replace(/[^d]/g,"");
-if(phone.length<7){speak("This saved contact does not have a valid phone number.");return}
+if(!contact)return;
+
+const phone=String(contact.phone).replace(/[^0-9]/g,"");
+
+if(phone.length<7){
+speak("This saved contact does not have a valid phone number.");
+return;
+}
+
 window.location.href="https://wa.me/"+phone+"?text="+encodeURIComponent(message);
 }
 
 function sendMessageCommand(command){
-let words=command.toLowerCase()
-.replace(/^(send )?(whatsapp )?(message|whatsapp message) to /,"")
-.trim();
+let text=command.toLowerCase().trim();
 
-const contacts=getContacts().slice().sort((a,b)=>b.n.length-a.n.length);
+text=text.replace("send whatsapp message to ","");
+text=text.replace("send message to ","");
+text=text.replace("whatsapp message to ","");
+
+const list=contacts().slice().sort((a,b)=>b.name.length-a.name.length);
+
 let selected=null;
 let message="";
 
-for(const contact of contacts){
-const name=contact.n.toLowerCase();
-if(words.startsWith(name+" ")){
+for(const contact of list){
+const name=contact.name.toLowerCase();
+
+if(text.startsWith(name+" ")){
 selected=contact;
-message=words.slice(name.length).trim();
+message=text.slice(name.length).trim();
 break;
 }
-if(words.startsWith("my "+name+" ")){
+
+if(text.startsWith("my "+name+" ")){
 selected=contact;
-message=words.slice(name.length+3).trim();
+message=text.slice(name.length+3).trim();
 break;
 }
 }
 
-if(!selected){speak("I could not find that saved contact. Please save the contact first.");return}
-message=message.replace(/^(saying|that)s+/,"").trim();
+if(!selected){
+speak("I could not find that saved contact. Please save the contact first.");
+return;
+}
 
-if(!message){speak("Please tell me the message you want to send to "+selected.n+".");return}
+message=message.replace("saying ","");
+message=message.replace("that ","");
 
-speak("Opening WhatsApp for "+selected.n+". Your message is ready to review and send.");
-setTimeout(()=>openWhatsApp(selected,message),900);
+if(!message){
+speak("Please tell me the message you want to send to "+selected.name+".");
+return;
+}
+
+speak("Opening WhatsApp for "+selected.name+". Your message is ready to review and send.");
+
+setTimeout(()=>{
+openWhatsApp(selected,message);
+},900);
 }
 
 async function startScanner(){
 showPanel("scannerPanel");
 
 try{
-cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});
-$("camera").srcObject=cameraStream;
-$("camera").classList.remove("hide");
-$("detected").textContent="Loading object detection model.";
+cameraStream=await navigator.mediaDevices.getUserMedia({
+video:{facingMode:{ideal:"environment"}},
+audio:false
+});
 
-objectModel=objectModel||await cocoSsd.load();
-$("detected").textContent="Camera ready. Looking for objects.";
+el("camera").srcObject=cameraStream;
+el("camera").classList.remove("hide");
+el("detected").textContent="Loading object detection model.";
 
-clearInterval(detectionTimer);
+model=model||await cocoSsd.load();
 
-detectionTimer=setInterval(async()=>{
-if(!$("camera").videoWidth||!objectModel)return;
+el("detected").textContent="Camera ready. Looking for objects.";
 
-const results=await objectModel.detect($("camera"));
+clearInterval(scanTimer);
+
+scanTimer=setInterval(async()=>{
+if(!el("camera").videoWidth||!model)return;
+
+const results=await model.detect(el("camera"));
 
 if(results[0]){
 const item=results[0];
-const middle=item.bbox[0]+item.bbox[2]/2;
-const position=middle<$("camera").videoWidth/3?"left":middle>$("camera").videoWidth*2/3?"right":"center";
-$("detected").textContent=item.class+", "+Math.round(item.score*100)+" percent confidence, "+position+".";
-}else $("detected").textContent="No known object detected.";
+const center=item.bbox[0]+item.bbox[2]/2;
+
+const place=center<el("camera").videoWidth/3
+?"left"
+:center>el("camera").videoWidth*2/3
+?"right"
+:"center";
+
+el("detected").textContent=item.class+", "+Math.round(item.score*100)+" percent confidence, "+place+".";
+}else{
+el("detected").textContent="No known object detected.";
+}
 },1300);
 }catch(error){
-$("detected").textContent="Camera could not start. Allow camera permission and use a secure HTTPS site.";
-speak($("detected").textContent);
+el("detected").textContent="Camera could not start. Allow camera permission and use a secure HTTPS site.";
+speak(el("detected").textContent);
 }
 }
 
 function stopScanner(){
-clearInterval(detectionTimer);
-if(cameraStream)cameraStream.getTracks().forEach(track=>track.stop());
+clearInterval(scanTimer);
+
+if(cameraStream){
+cameraStream.getTracks().forEach(track=>track.stop());
+}
+
 cameraStream=null;
-$("camera").classList.add("hide");
-$("detected").textContent="Camera stopped.";
+el("camera").classList.add("hide");
+el("detected").textContent="Camera stopped.";
 }
 
 function runCommand(text){
 const command=text.toLowerCase().trim();
 
-if(/^(send )?(whatsapp )?(message|whatsapp message) to /.test(command))return sendMessageCommand(command);
-if(/time/.test(command))return currentTime();
-if(/date|day is|today/.test(command))return currentDate();
-if(/location|where am i|where i am/.test(command))return getLocation();
-if(/weather|temperature|forecast/.test(command))return getWeather();
-if(/object|scanner|camera/.test(command))return startScanner();
-if(/contact|saved people|phone book/.test(command))return openContacts();
-if(/calculate|square root|cube root|multiplied|divided|power|percent| plus | minus |sin |cos |tan |log /.test(" "+command+" "))return calculate(command);
-if(/technology|tech news/.test(command))return loadNews("Technology");
-if(/business/.test(command))return loadNews("Business");
-if(/science/.test(command))return loadNews("Science");
-if(/news|headlines|india news/.test(command))return loadNews("India");
+if(command.startsWith("send message to ")||command.startsWith("send whatsapp message to ")||command.startsWith("whatsapp message to ")){
+sendMessageCommand(command);
+return;
+}
 
-speak("I heard "+command+". Ask for time, date, location, weather, news, object scanner, contacts, WhatsApp messages, or calculations.");
+if(command.includes("time")){
+timeCommand();
+return;
+}
+
+if(command.includes("date")||command.includes("today")){
+dateCommand();
+return;
+}
+
+if(command.includes("location")||command.includes("where am i")){
+locationCommand();
+return;
+}
+
+if(command.includes("weather")||command.includes("temperature")){
+weatherCommand();
+return;
+}
+
+if(command.includes("object")||command.includes("scanner")||command.includes("camera")){
+startScanner();
+return;
+}
+
+if(command.includes("contact")){
+openContacts();
+return;
+}
+
+if(command.includes("calculate")||command.includes("square root")||command.includes("cube root")||command.includes("multiplied")||command.includes("divided")||command.includes("power")||command.includes("percent")||command.includes(" plus ")||command.includes(" minus ")){
+calculateCommand(command);
+return;
+}
+
+if(command.includes("technology")||command.includes("tech news")){
+newsCommand("Technology");
+return;
+}
+
+if(command.includes("business")){
+newsCommand("Business");
+return;
+}
+
+if(command.includes("science")){
+newsCommand("Science");
+return;
+}
+
+if(command.includes("news")||command.includes("headlines")){
+newsCommand("India");
+return;
+}
+
+speak("I heard "+command+". Ask for time, location, weather, news, contacts, object scanner, WhatsApp messages, or calculations.");
 }
 
 function startRecognition(){
 const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
 
 if(!SpeechRecognition){
-micEnabled=false;
-setVoiceButton(false,"Speech recognition is not supported. Use Chrome on Android.");
+micOn=false;
+voiceUI(false,"Speech recognition is not supported. Use Chrome on Android.");
 speak("Speech recognition is not supported in this browser. Try Chrome on Android.");
 return;
 }
 
-if(!micEnabled||assistantSpeaking||recognitionRunning)return;
+if(!micOn||speaking||recognitionOn)return;
 
 recognition=new SpeechRecognition();
 recognition.lang="en-IN";
@@ -425,129 +623,140 @@ recognition.interimResults=false;
 recognition.maxAlternatives=1;
 
 recognition.onstart=()=>{
-recognitionRunning=true;
-setStatus("Listening");
-setVoiceButton(true,"AI is listening. Tap to stop.");
+recognitionOn=true;
+status("Listening");
+voiceUI(true,"AI is listening. Tap to stop.");
 };
 
 recognition.onresult=event=>{
 for(let index=event.resultIndex;index<event.results.length;index++){
-if(event.results[index].isFinal)runCommand(event.results[index][0].transcript);
+if(event.results[index].isFinal){
+runCommand(event.results[index][0].transcript);
+}
 }
 };
 
 recognition.onerror=event=>{
 if(event.error==="not-allowed"||event.error==="service-not-allowed"){
-micEnabled=false;
-recognitionRunning=false;
-setVoiceButton(false,"Microphone permission was denied.");
+micOn=false;
+recognitionOn=false;
+voiceUI(false,"Microphone permission was denied.");
 speak("Microphone permission was denied. Please allow it in browser settings.");
-return;
-}
-
-if(event.error!=="aborted"&&event.error!=="no-speech"){
-$("answer").textContent="Voice input issue: "+event.error+". Trying again.";
 }
 };
 
 recognition.onend=()=>{
-recognitionRunning=false;
-if(micEnabled&&!assistantSpeaking)restartRecognition();
+recognitionOn=false;
+if(micOn&&!speaking){
+restartRecognition();
+}
 };
 
-try{recognition.start()}catch(error){recognitionRunning=false;restartRecognition()}
+try{
+recognition.start();
+}catch(error){
+recognitionOn=false;
+restartRecognition();
+}
 }
 
 function toggleVoice(){
-if(micEnabled){
-micEnabled=false;
+if(micOn){
+micOn=false;
 speechSynthesis.cancel();
 stopRecognition();
-setStatus("Ready");
-setVoiceButton(false,"Tap to speak");
-$("answer").textContent="Voice Assistant is off.";
+status("Ready");
+voiceUI(false,"Tap to speak");
+el("answer").textContent="Voice Assistant is off.";
 return;
 }
 
-micEnabled=true;
-setStatus("Starting microphone");
-setVoiceButton(true,"Starting microphone…");
+micOn=true;
+status("Starting microphone");
+voiceUI(true,"Starting microphone…");
 startRecognition();
 }
 
-$("voice").onclick=toggleVoice;
+el("voice").onclick=toggleVoice;
 
 document.querySelectorAll(".tool").forEach(button=>{
 button.onclick=()=>{
-const actions={
-news:()=>loadNews(),
-location:getLocation,
-time:currentTime,
-date:currentDate,
-weather:getWeather,
-scanner:startScanner,
-contacts:openContacts,
-calculator:()=>showPanel("calculatorPanel")
-};
-actions[button.dataset.tool]();
+const action=button.dataset.action;
+
+if(action==="news")newsCommand();
+if(action==="location")locationCommand();
+if(action==="time")timeCommand();
+if(action==="date")dateCommand();
+if(action==="weather")weatherCommand();
+if(action==="scanner")startScanner();
+if(action==="contacts")openContacts();
+if(action==="calculator")showPanel("calculatorPanel");
 };
 });
 
 document.querySelectorAll("[data-news]").forEach(button=>{
-button.onclick=()=>loadNews(button.dataset.news);
+button.onclick=()=>newsCommand(button.dataset.news);
 });
 
-$("startCamera").onclick=startScanner;
-$("stopCamera").onclick=stopScanner;
+el("startCamera").onclick=startScanner;
+el("stopCamera").onclick=stopScanner;
 
-$("calculateButton").onclick=()=>calculate($("calculationInput").value);
-$("calculationInput").onkeydown=event=>{
-if(event.key==="Enter")calculate(event.target.value);
+el("calculateButton").onclick=()=>{
+calculateCommand(el("calculationInput").value);
 };
 
-$("saveContact").onclick=()=>{
-const name=$("contactName").value.trim();
-const phone=$("contactPhone").value.replace(/[^+0-9]/g,"");
+el("calculationInput").onkeydown=event=>{
+if(event.key==="Enter"){
+calculateCommand(event.target.value);
+}
+};
+
+el("saveContact").onclick=()=>{
+const name=el("contactName").value.trim();
+const phone=normalizePhone(el("contactPhone").value.trim());
 
 if(!name||phone.length<7){
-toast("Enter a contact name and valid phone number.");
+showToast("Enter a contact name and valid phone number.");
 return;
 }
 
-const contacts=getContacts();
-contacts.push({n:name,p:phone});
-localStorage.accessAIContacts=JSON.stringify(contacts);
+const list=contacts();
+list.push({name:name,phone:phone});
+saveContacts(list);
 
-$("contactName").value="";
-$("contactPhone").value="";
-renderContacts();
+el("contactName").value="";
+el("contactPhone").value="";
+
 speak(name+" has been saved.");
 };
 
-$("contactList").onclick=event=>{
-const callIndex=event.target.dataset.call;
-const whatsappIndex=event.target.dataset.whatsapp;
-const contacts=getContacts();
+el("contactList").onclick=event=>{
+const call=event.target.dataset.call;
+const message=event.target.dataset.message;
+const list=contacts();
 
-if(callIndex!==undefined){
-const contact=contacts[callIndex];
-if(contact)window.location.href="tel:"+contact.p;
+if(call!==undefined&&list[call]){
+window.location.href="tel:"+list[call].phone;
 }
 
-if(whatsappIndex!==undefined){
-const contact=contacts[whatsappIndex];
-if(contact)openWhatsApp(contact,"Hello "+contact.n);
+if(message!==undefined&&list[message]){
+openWhatsApp(list[message],"Hello "+list[message].name);
 }
 };
 
 document.addEventListener("touchstart",event=>{
-touchStartX=event.changedTouches[0].screenX;
+touchX=event.changedTouches[0].screenX;
 },{passive:true});
 
 document.addEventListener("touchend",event=>{
 const endX=event.changedTouches[0].screenX;
-if(touchStartX-endX>90)window.location.href="communication.html";
+
+if(touchX-endX>90){
+window.location.href="communication.html";
+}
 },{passive:true});
+
+renderContacts();
 
 if("serviceWorker" in navigator){
 navigator.serviceWorker.register("sw.js").catch(()=>{});
