@@ -1,1 +1,401 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#07111f"><title>AccessAI Communication</title><style>*{box-sizing:border-box}body{margin:0;background:#07111f;color:#fff;font-family:Arial,sans-serif;height:100vh;overflow:hidden}button,input{font:inherit}button{cursor:pointer}.app{height:100vh;display:flex;flex-direction:column;max-width:800px;margin:auto}.top{padding:16px 18px;border-bottom:1px solid #24364b;display:flex;align-items:center;gap:12px}.back{width:48px;height:48px;border:1px solid #38506a;border-radius:14px;background:#102235;color:#fff;font-size:24px}.title{font-size:20px;font-weight:700}.sub{font-size:12px;color:#91a7bb;margin-top:3px}.live{margin:12px 16px 0;padding:14px;border-radius:16px;background:#0d1d2d;border:1px solid #29435d;display:flex;align-items:center;justify-content:space-between;gap:12px}.liveText{font-weight:700}.state{font-size:12px;color:#91a7bb;margin-top:4px}.liveBtn{border:0;border-radius:13px;padding:13px 16px;background:#166534;color:#fff;font-weight:700;min-width:115px}.liveBtn.off{background:#24364b}.chat{flex:1;overflow-y:auto;padding:16px}.empty{text-align:center;color:#7890a6;margin-top:25vh;line-height:1.6}.msg{max-width:88%;margin:0 0 14px;padding:13px 15px;border-radius:17px;line-height:1.5;font-size:16px;word-wrap:break-word}.me{margin-left:auto;background:#155e75;border-bottom-right-radius:5px}.other{margin-right:auto;background:#172a3d;border-bottom-left-radius:5px}.label{font-size:11px;color:#a9bbca;margin-bottom:4px;font-weight:700}.time{font-size:10px;color:#8ca0b2;margin-top:6px}.typing{padding:12px 16px;border-top:1px solid #24364b;background:#091625}.row{display:flex;gap:9px}.input{flex:1;min-width:0;background:#122337;color:#fff;border:1px solid #35516b;border-radius:14px;padding:15px;outline:0}.input:focus{border-color:#67c7ff}.send{width:62px;border:0;border-radius:14px;background:#1683b8;color:#fff;font-weight:700}.tools{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}.tool{min-height:52px;border:1px solid #35516b;background:#102438;color:#fff;border-radius:14px;font-weight:700}.tool:active,.back:active,.liveBtn:active,.send:active{transform:scale(.98)}.camera{display:none;position:absolute;inset:0;background:#030912;z-index:5;flex-direction:column}.camera.show{display:flex}.camtop{padding:15px;display:flex;justify-content:space-between;align-items:center;background:#07111f}.camtitle{font-weight:700}.close{border:1px solid #536a80;background:#17283a;color:#fff;border-radius:12px;padding:11px 15px}.videoBox{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}.video{width:100%;height:100%;object-fit:cover}.guide{position:absolute;border:2px solid rgba(255,255,255,.75);width:70%;height:60%;border-radius:25px;pointer-events:none}.caminfo{padding:15px;background:#07111f;color:#b6c5d2;font-size:13px;line-height:1.5}.camActions{display:flex;gap:9px;margin-top:10px}.camActions button{flex:1;padding:14px;border-radius:12px;border:1px solid #38516a;background:#13263a;color:#fff;font-weight:700}.status{padding:7px 16px;font-size:12px;color:#91a7bb;text-align:center}.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:500px){.msg{max-width:94%}.live{margin-left:10px;margin-right:10px}.chat{padding:12px}.typing{padding:10px}.tools{grid-template-columns:1fr 1fr}.liveBtn{min-width:105px;padding:12px 10px}}</style></head><body><main class="app"><header class="top"><button class="back" aria-label="Return to AccessAI" onclick="goBack()">‹</button><div><div class="title">AccessAI Communication</div><div class="sub">Fast communication assistant</div></div></header><section class="live"><div><div class="liveText" id="liveTitle">Live Listening is OFF</div><div class="state" id="state">Press Start to listen automatically</div></div><button class="liveBtn off" id="liveBtn" onclick="toggleLive()">Start Listening</button></section><div class="status" id="status" aria-live="polite">Ready</div><section class="chat" id="chat" aria-live="polite"><div class="empty" id="empty">Start Live Listening and let the other person speak.<br><br>Their speech will automatically appear here as text.</div></section><section class="typing"><div class="row"><label class="sr" for="message">Type your message</label><input class="input" id="message" placeholder="Type your message..." autocomplete="off"><button class="send" onclick="sendMessage()">Send</button></div><div class="tools"><button class="tool" onclick="startLive()">🎙 Live Listening</button><button class="tool" onclick="openISL()">ISL Camera</button></div></section></main><section class="camera" id="camera"><div class="camtop"><div class="camtitle">ISL Sign Language</div><button class="close" onclick="closeISL()">Close</button></div><div class="videoBox"><video id="video" class="video" autoplay muted playsinline></video><div class="guide"></div></div><div class="caminfo" id="islInfo">Show your Indian Sign Language clearly inside the guide. A connected ISL recognition model can convert the signs into text and speech.</div><div class="camActions"><button onclick="captureISL()">Recognize Sign</button><button onclick="closeISL()">Stop Camera</button></div></section><script>const chat=document.getElementById("chat"),empty=document.getElementById("empty"),message=document.getElementById("message"),liveBtn=document.getElementById("liveBtn"),liveTitle=document.getElementById("liveTitle"),state=document.getElementById("state"),statusEl=document.getElementById("status"),camera=document.getElementById("camera"),video=document.getElementById("video"),islInfo=document.getElementById("islInfo");let recognition=null,listening=false,starting=false,speaking=false,stream=null;const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;function status(t){statusEl.textContent=t;state.textContent=t}function speak(text){if(!text)return;speaking=true;if(recognition)try{recognition.stop()}catch(e){}window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="en-IN";u.rate=1;u.pitch=1;u.onend=()=>{speaking=false;if(listening)startRecognition()};u.onerror=()=>{speaking=false;if(listening)startRecognition()};window.speechSynthesis.speak(u)}function addMessage(text,type){if(!text.trim())return;if(empty)empty.remove();const box=document.createElement("div");box.className="msg "+(type==="me"?"me":"other");const label=document.createElement("div");label.className="label";label.textContent=type==="me"?"YOU":"OTHER PERSON";const body=document.createElement("div");body.textContent=text;const time=document.createElement("div");time.className="time";time.textContent=new Date().toLocaleTimeString("en-IN",{hour:"numeric",minute:"2-digit"});box.append(label,body,time);chat.appendChild(box);chat.scrollTop=chat.scrollHeight}function sendMessage(){const text=message.value.trim();if(!text)return;message.value="";addMessage(text,"me");status("Speaking your message...");speak(text)}message.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();sendMessage()}});function setupRecognition(){if(!SpeechRecognition){status("Speech recognition is not supported in this browser.");return false}recognition=new SpeechRecognition();recognition.lang="en-IN";recognition.continuous=true;recognition.interimResults=false;recognition.maxAlternatives=1;recognition.onstart=()=>{starting=false;if(!speaking){status("Listening...");liveTitle.textContent="Live Listening is ON";liveBtn.textContent="Stop Listening";liveBtn.classList.remove("off")}};recognition.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal){const text=e.results[i][0].transcript.trim();if(text&&!speaking){addMessage(text,"other");status("Message received");setTimeout(()=>{if(listening&&!speaking)startRecognition()},250)}}}};recognition.onerror=e=>{starting=false;if(e.error==="not-allowed"||e.error==="service-not-allowed"){listening=false;liveBtn.textContent="Start Listening";liveBtn.classList.add("off");liveTitle.textContent="Live Listening is OFF";status("Microphone permission is required")}else if(listening&&!speaking){setTimeout(startRecognition,500)}};recognition.onend=()=>{starting=false;if(listening&&!speaking)setTimeout(startRecognition,250)}}function startRecognition(){if(!listening||speaking||starting)return;if(!recognition&& !setupRecognition())return;starting=true;try{recognition.start()}catch(e){starting=false}}function startLive(){listening=true;liveTitle.textContent="Live Listening is ON";liveBtn.textContent="Stop Listening";liveBtn.classList.remove("off");status("Starting microphone...");startRecognition()}function stopLive(){listening=false;starting=false;try{if(recognition)recognition.stop()}catch(e){}liveTitle.textContent="Live Listening is OFF";liveBtn.textContent="Start Listening";liveBtn.classList.add("off");status("Listening stopped")}function toggleLive(){if(listening)stopLive();else startLive()}function openISL(){if(listening)stopLive();camera.classList.add("show");islInfo.textContent="Starting camera...";navigator.mediaDevices&&navigator.mediaDevices.getUserMedia?navigator.mediaDevices.getUserMedia({video:{facingMode:"user"},audio:false}).then(s=>{stream=s;video.srcObject=s;islInfo.textContent="Camera ready. Show your ISL sign clearly inside the guide."}).catch(()=>{islInfo.textContent="Camera permission was denied or the camera is unavailable."}):islInfo.textContent="Camera is not supported on this device."}function closeISL(){camera.classList.remove("show");if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}video.srcObject=null}function captureISL(){islInfo.textContent="ISL recognition model is not connected yet. Connect your trained ISL model/API to convert the camera sign into text.";speak("The ISL camera is ready, but the sign language recognition model needs to be connected.");}function goBack(){if(listening)stopLive();if(stream)closeISL();if(history.length>1)history.back();else window.location.href="index.html"}let touchX=0;document.addEventListener("touchstart",e=>{touchX=e.changedTouches[0].screenX},{passive:true});document.addEventListener("touchend",e=>{const x=e.changedTouches[0].screenX;if(x-touchX>100)goBack()},{passive:true});window.addEventListener("beforeunload",()=>{if(stream)stream.getTracks().forEach(t=>t.stop());if(recognition)try{recognition.stop()}catch(e){}});</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#070b14">
+  <title>Communication Assistant — AccessAI</title>
+
+  <style>
+    :root{
+      --bg:#070b14;--panel:#111a2b;--line:#2b3a56;--text:#fff;
+      --muted:#b9c5da;--blue:#55b9ff;--focus:#ffe15a;
+      --you:#165e91;--other:#29364c
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;background:var(--bg);color:var(--text);
+      font:17px/1.45 system-ui,sans-serif
+    }
+    .app{
+      max-width:760px;margin:auto;
+      padding:max(16px,env(safe-area-inset-top)) 16px 25px
+    }
+    button,input{font:inherit}
+    button{
+      min-height:56px;border:2px solid transparent;border-radius:15px;
+      background:var(--panel);color:#fff;padding:10px 14px;font-weight:750
+    }
+    button:focus-visible,input:focus-visible{
+      outline:4px solid var(--focus);outline-offset:3px
+    }
+    .back{min-height:46px}
+    .brand{
+      font-size:1.3rem;font-weight:900;color:var(--blue);margin:18px 0 2px
+    }
+    h1{font-size:1.75rem;margin:0}
+    .hint{color:var(--muted)}
+    .panel{
+      background:var(--panel);border:1px solid var(--line);
+      border-radius:18px;padding:14px;margin-top:16px
+    }
+    .row{display:flex;gap:10px}
+    .row button{flex:1}
+    .primary{background:var(--blue);color:#06101c}
+    .stop{background:#6d3341}
+    .chat{
+      min-height:260px;max-height:48vh;overflow:auto;padding:8px 0
+    }
+    .bubble{
+      max-width:87%;padding:12px;margin:10px 0;border-radius:16px
+    }
+    .other{background:var(--other);margin-right:auto}
+    .you{background:var(--you);margin-left:auto}
+    .who{
+      display:block;font-size:.76rem;font-weight:900;margin-bottom:3px
+    }
+    .when{
+      display:block;font-size:.72rem;color:#d4e1f3;margin-top:5px
+    }
+    .compose{display:flex;gap:8px}
+    .compose input{
+      min-width:0;flex:1;min-height:56px;border:2px solid var(--line);
+      border-radius:13px;background:#080f1e;color:#fff;padding:10px
+    }
+    .compose button{background:var(--blue);color:#06101c}
+    .hide{display:none!important}
+    .camera{
+      width:100%;max-height:390px;object-fit:cover;
+      background:#000;border-radius:14px
+    }
+    .guide{position:relative}
+    .guide:after{
+      content:"Show hands inside this guide";
+      position:absolute;inset:15% 17%;border:3px dashed #ffe15a;
+      border-radius:12px;display:grid;place-items:end center;
+      padding:8px;color:#ffe15a;font-weight:800;pointer-events:none
+    }
+    .note{
+      border-left:4px solid #ffe15a;padding-left:10px;color:#fff
+    }
+    .status{color:#78e9ab;font-weight:750}
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <button
+      class="back"
+      id="back"
+      aria-label="Back to AccessAI main page"
+    >
+      ← Back to AccessAI
+    </button>
+
+    <div class="brand">AccessAI</div>
+    <h1>Communication Assistant</h1>
+
+    <p class="hint">
+      A focused conversation space. Swipe right anywhere to return to the main page.
+    </p>
+
+    <section class="panel">
+      <h2>Live Listening</h2>
+
+      <p id="listenStatus" class="status" role="status" aria-live="polite">
+        Live Listening is off.
+      </p>
+
+      <div class="row">
+        <button id="start" class="primary">Start Listening</button>
+        <button id="stop" class="stop">Stop Listening</button>
+      </div>
+
+      <p class="hint">
+        When active, the other person’s speech is added below as text.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Conversation</h2>
+
+      <div
+        id="chat"
+        class="chat"
+        aria-live="polite"
+        aria-label="Conversation messages"
+      >
+        <div class="bubble other">
+          <span class="who">OTHER PERSON</span>
+          Start Live Listening, or type a message to speak it aloud.
+          <span class="when">Now</span>
+        </div>
+      </div>
+
+      <div class="compose">
+        <input
+          id="message"
+          placeholder="Type your response"
+          aria-label="Type your response"
+        >
+        <button id="send">Send</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>ISL Camera</h2>
+
+      <p class="note">ISL recognition model is not connected yet.</p>
+
+      <p class="hint">
+        This opens a live preview and keeps the camera flow ready for a future
+        trained Indian Sign Language recognition model. It does not interpret signs.
+      </p>
+
+      <div class="row">
+        <button id="openCam" class="primary">Open ISL Camera</button>
+        <button id="closeCam">Close Camera</button>
+      </div>
+
+      <div id="guide" class="guide hide">
+        <video
+          id="camera"
+          class="camera"
+          autoplay
+          muted
+          playsinline
+          aria-label="ISL camera preview"
+        ></video>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+
+    let recognition;
+    let liveListening = false;
+    let cameraStream;
+    let startSwipeX = 0;
+    let speaking = false;
+
+    function getTimeStamp() {
+      return new Intl.DateTimeFormat("en-IN", {
+        hour: "numeric",
+        minute: "2-digit"
+      }).format(new Date());
+    }
+
+    function addMessage(person, text) {
+      const bubble = document.createElement("div");
+
+      bubble.className =
+        "bubble " + (person === "YOU" ? "you" : "other");
+
+      bubble.innerHTML =
+        '<span class="who">' + person + "</span>";
+
+      const messageText = document.createElement("span");
+      messageText.textContent = text;
+
+      const time = document.createElement("span");
+      time.className = "when";
+      time.textContent = getTimeStamp();
+
+      bubble.append(messageText);
+      bubble.append(time);
+
+      $("chat").append(bubble);
+      $("chat").scrollTop = $("chat").scrollHeight;
+    }
+
+    function setListeningStatus(text) {
+      $("listenStatus").textContent = text;
+    }
+
+    function startListening() {
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        setListeningStatus(
+          "Speech recognition is not supported. Use Chrome on Android."
+        );
+        return;
+      }
+
+      if (speaking) {
+        return;
+      }
+
+      recognition = new SpeechRecognition();
+      recognition.lang = "en-IN";
+      recognition.continuous = true;
+      recognition.interimResults = false;
+
+      recognition.onstart = () => {
+        liveListening = true;
+        setListeningStatus("Live Listening is on. Listening now.");
+      };
+
+      recognition.onresult = event => {
+        for (
+          let index = event.resultIndex;
+          index < event.results.length;
+          index++
+        ) {
+          if (event.results[index].isFinal) {
+            addMessage(
+              "OTHER PERSON",
+              event.results[index][0].transcript
+            );
+          }
+        }
+      };
+
+      recognition.onerror = event => {
+        if (event.error === "not-allowed") {
+          liveListening = false;
+
+          setListeningStatus(
+            "Microphone permission was denied. Allow it in browser settings."
+          );
+        } else {
+          setListeningStatus(
+            "Listening error: " + event.error + "."
+          );
+        }
+      };
+
+      recognition.onend = () => {
+        if (liveListening && !speaking) {
+          setTimeout(() => {
+            try {
+              recognition.start();
+            } catch {}
+          }, 350);
+        }
+      };
+
+      recognition.start();
+    }
+
+    function stopListening() {
+      liveListening = false;
+
+      if (recognition) {
+        recognition.stop();
+      }
+
+      setListeningStatus("Live Listening is off.");
+    }
+
+    function sendMessage() {
+      const text = $("message").value.trim();
+
+      if (!text) {
+        return;
+      }
+
+      addMessage("YOU", text);
+      $("message").value = "";
+
+      const shouldResumeListening = liveListening;
+
+      if (shouldResumeListening && recognition) {
+        recognition.abort();
+      }
+
+      speaking = true;
+      setListeningStatus("Speaking your message.");
+
+      speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.9;
+
+      utterance.onend = () => {
+        speaking = false;
+
+        if (shouldResumeListening) {
+          setListeningStatus("Live Listening is on. Listening now.");
+          startListening();
+        } else {
+          setListeningStatus(
+            "Message spoken. Live Listening is off."
+          );
+        }
+      };
+
+      utterance.onerror = utterance.onend;
+
+      speechSynthesis.speak(utterance);
+    }
+
+    async function openISLCamera() {
+      try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: {
+              ideal: "environment"
+            }
+          },
+          audio: false
+        });
+
+        $("camera").srcObject = cameraStream;
+        $("guide").classList.remove("hide");
+      } catch {
+        setListeningStatus(
+          "Camera could not open. Allow camera permission and use HTTPS."
+        );
+      }
+    }
+
+    function closeISLCamera() {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+      }
+
+      cameraStream = null;
+      $("guide").classList.add("hide");
+    }
+
+    $("back").onclick = () => {
+      window.location.href = "index.html";
+    };
+
+    $("start").onclick = startListening;
+    $("stop").onclick = stopListening;
+    $("send").onclick = sendMessage;
+    $("openCam").onclick = openISLCamera;
+    $("closeCam").onclick = closeISLCamera;
+
+    $("message").onkeydown = event => {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    };
+
+    document.addEventListener(
+      "touchstart",
+      event => {
+        startSwipeX = event.changedTouches[0].screenX;
+      },
+      { passive: true }
+    );
+
+    document.addEventListener(
+      "touchend",
+      event => {
+        const endSwipeX = event.changedTouches[0].screenX;
+
+        if (endSwipeX - startSwipeX > 90) {
+          window.location.href = "index.html";
+        }
+      },
+      { passive: true }
+    );
+  </script>
+</body>
+</html>
