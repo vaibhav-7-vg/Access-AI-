@@ -598,7 +598,6 @@ response.textContent=text;
 window.speechSynthesis.speak(speech);
 }
 
-
 /* =========================================================
    SPEECH RECOGNITION
 ========================================================= */
@@ -1574,6 +1573,7 @@ function normalizeMathSpeech(text){
   s=s.replace(/[^0-9a-zA-Z_+\-*/%^().,\s]/g,"");
   return s.trim();
 }
+
 function calculate(text){
   if(typeof math==="undefined"){
     speak("The advanced calculator is not loaded. Please check your internet connection.");
