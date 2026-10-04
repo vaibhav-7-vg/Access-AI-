@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<rect width="512" height="512" rx="96" fill="#07111f"/>
+<circle cx="256" cy="235" r="135" fill="#0f2c43" stroke="#55d6ff" stroke-width="14"/>
+<path d="M256 150v170M190 225h132M211 180l90 110M301 180l-90 110" stroke="#fff" stroke-width="18" stroke-linecap="round"/>
+<circle cx="256" cy="235" r="22" fill="#55d6ff"/>
+<path d="M174 375h164" stroke="#55d6ff" stroke-width="18" stroke-linecap="round"/>
+<text x="256" y="438" text-anchor="middle" fill="#fff" font-size="42" font-family="Arial" font-weight="700">ACCESSAI</text>
+</svg>
