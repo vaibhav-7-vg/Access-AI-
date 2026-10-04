@@ -1,1 +1,823 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#070b14"><meta name="description" content="AccessAI accessibility assistant"><link rel="manifest" href="manifest.json"><title>AccessAI</title><style>:root{--b:#070b14;--p:#111a2b;--l:#2b3a56;--t:#fff;--m:#b9c5da;--a:#55b9ff;--f:#ffe15a;--g:#65df9b}*{box-sizing:border-box}body{margin:0;background:var(--b);color:var(--t);font:17px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input{font:inherit}button{min-height:56px;padding:12px 16px;border:2px solid transparent;border-radius:16px;background:var(--p);color:#fff;font-weight:750;cursor:pointer}button:focus-visible,input:focus-visible,a:focus-visible{outline:4px solid var(--f);outline-offset:3px}.app{max-width:760px;margin:auto;padding:max(16px,env(safe-area-inset-top)) 16px 32px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px}.brand{font-size:1.35rem;font-weight:900}.brand b{color:var(--a)}.ok{font-size:.82rem;color:var(--g)}h1{font-size:1.75rem;margin:26px 0 6px}h2{font-size:1.16rem;margin:28px 0 10px}.muted{color:var(--m);margin:0}.voice{width:100%;min-height:178px;margin:22px 0 10px;background:linear-gradient(135deg,#1464a1,#263f84);border-color:#83ccff;border-radius:28px;font-size:1.2rem}.voice[aria-pressed=true]{background:#8d334b;border-color:#ff9ba2}.voice small{display:block;font-size:.88rem;font-weight:600;margin-top:7px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{text-align:left;min-height:106px;border-color:var(--l)}.card strong{display:block}.card span{display:block;color:var(--m);font-size:.84rem;margin-top:3px}.panel{background:var(--p);border:1px solid var(--l);border-radius:18px;padding:16px;margin-top:14px}.row{display:flex;flex-wrap:wrap;gap:10px}.row button{flex:1}.primary{background:var(--a);color:#04111e}.hide{display:none!important}.out{min-height:58px;white-space:pre-wrap}.news{padding:0;margin:12px 0 0;list-style:none}.news a{display:block;color:#fff;padding:12px 0;border-bottom:1px solid var(--l);text-decoration:none}.news a:focus-visible{color:#000;background:var(--f)}video{width:100%;max-height:400px;object-fit:cover;background:#000;border-radius:14px}.detect{font-size:1.05rem;color:var(--g)}input{width:100%;min-height:54px;margin:6px 0;padding:10px;border:2px solid var(--l);border-radius:12px;background:#080f1e;color:#fff}.contact{display:flex;justify-content:space-between;gap:8px;padding:11px 0;border-bottom:1px solid var(--l)}.contact button{min-height:44px;padding:7px 10px}.foot{color:var(--m);font-size:.82rem;margin-top:26px}.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);max-width:92%;padding:12px 16px;border-radius:12px;background:#fff;color:#06101c;font-weight:700;z-index:9}@media(min-width:600px){.grid{grid-template-columns:repeat(3,1fr)}}</style></head><body><main class="app"><header class="top"><div class="brand">Access<b>AI</b></div><div class="ok" aria-live="polite">Ready</div></header><h1>Your world, within reach.</h1><p class="muted">Tap once, speak naturally, and hear the response.</p><button id="voice" class="voice" aria-pressed="false" aria-label="Tap to speak a command">🎙️ Tap to Speak<small id="vh">Examples: “What is the time?” or “Open technology news.”</small></button><p id="out" class="panel out" role="status" aria-live="polite">I am ready to help.</p><h2>Quick Access</h2><div class="grid" aria-label="Accessibility tools"><button class="card" data-a="news"><strong>Latest News</strong><span>Listen to headlines</span></button><button class="card" data-a="location"><strong>My Location</strong><span>Current position</span></button><button class="card" data-a="time"><strong>Current Time</strong><span>Hear the time</span></button><button class="card" data-a="date"><strong>Today’s Date</strong><span>Hear the date</span></button><button class="card" data-a="weather"><strong>Weather</strong><span>Local conditions</span></button><button class="card" data-a="scanner"><strong>Object Scanner</strong><span>AI camera detection</span></button><button class="card" data-a="contacts"><strong>Contacts</strong><span>Call and message</span></button><button class="card" data-a="calculator"><strong>Calculator</strong><span>Voice calculation</span></button></div><section id="newsP" class="panel hide"><h2>News Center</h2><div class="row"><button data-n="India">India</button><button data-n="Technology">Technology</button><button data-n="Business">Business</button><button data-n="Science">Science</button></div><p id="newsS" aria-live="polite">Choose a category.</p><ul id="newsL" class="news"></ul></section><section id="scanP" class="panel hide"><h2>Object Scanner</h2><p class="muted">Detection is assistance only. It does not replace a mobility aid, human support, or safe judgement.</p><div class="row"><button id="camOn" class="primary">Start Camera</button><button id="camOff">Stop Camera</button></div><video id="vid" class="hide" autoplay muted playsinline aria-label="Live camera preview"></video><p id="det" class="detect" aria-live="polite">Camera is not running.</p></section><section id="contactP" class="panel hide"><h2>Saved Contacts</h2><input id="cn" autocomplete="name" placeholder="Contact name" aria-label="Contact name"><input id="cp" inputmode="tel" placeholder="Phone number with country code" aria-label="Phone number"><button id="save" class="primary">Save Contact</button><div id="cl" aria-live="polite"></div></section><section id="calcP" class="panel hide"><h2>Calculator</h2><p class="muted">Try: 125 multiplied by 48, square root of 144, or 2 to the power of 10.</p><input id="ci" placeholder="Type a calculation" aria-label="Calculation"><button id="calc" class="primary">Calculate</button></section><p class="foot">Swipe left anywhere on this page to open Communication Assistant. It is not part of Quick Access.</p></main><div id="toast" class="toast hide" role="alert"></div><script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script><script>const $=x=>document.getElementById(x),P=["newsP","scanP","contactP","calcP"];let rec,listen=0,stream,model,timer,sx=0;function say(x){$("out").textContent=x;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(x);u.rate=.92;speechSynthesis.speak(u)}function show(x){P.forEach(y=>$(y).classList.toggle("hide",x!=y));$(x).scrollIntoView({behavior:"smooth",block:"start"})}function note(x){$("toast").textContent=x;$("toast").classList.remove("hide");setTimeout(()=>$("toast").classList.add("hide"),3000)}function time(){say("The time is "+new Intl.DateTimeFormat("en-IN",{hour:"numeric",minute:"2-digit"}).format(new Date()))}function date(){say("Today is "+new Intl.DateTimeFormat("en-IN",{weekday:"long",year:"numeric",month:"long",day:"numeric"}).format(new Date()))}function loc(){if(!navigator.geolocation)return say("Location is not supported by this browser.");say("Finding your location.");navigator.geolocation.getCurrentPosition(async p=>{let{latitude:a,longitude:b}=p.coords;try{let d=await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat="+a+"&lon="+b).then(r=>r.json());say("Your location is "+(d.display_name||a.toFixed(4)+", "+b.toFixed(4)))}catch(e){say("Your coordinates are "+a.toFixed(4)+", "+b.toFixed(4))}},{enableHighAccuracy:true,timeout:12000},()=>say("I could not get your location. Please allow location permission."))}function weather(){if(!navigator.geolocation)return say("Weather needs location support.");say("Getting local weather.");navigator.geolocation.getCurrentPosition(async p=>{try{let d=await fetch("https://api.open-meteo.com/v1/forecast?latitude="+p.coords.latitude+"&longitude="+p.coords.longitude+"&current=temperature_2m,apparent_temperature,weather_code&timezone=auto").then(r=>r.json()),c=d.current,w={0:"clear skies",1:"mainly clear",2:"partly cloudy",3:"overcast",45:"foggy",51:"drizzle",61:"rainy",71:"snowy",80:"rain showers",95:"thunderstorms"}[c.weather_code]||"unknown conditions";say("It is "+Math.round(c.temperature_2m)+" degrees Celsius and "+w+". Feels like "+Math.round(c.apparent_temperature)+" degrees.")}catch(e){say("Weather could not be loaded. Check your internet connection.")}},()=>say("Please allow location permission for weather."))}async function news(cat="India"){show("newsP");$("newsS").textContent="Loading "+cat+" headlines…";$("newsL").innerHTML="";try{let rss="https://news.google.com/rss/search?q="+encodeURIComponent(cat+" news India")+"&hl=en-IN&gl=IN&ceid=IN:en",xml=await fetch("https://api.allorigins.win/raw?url="+encodeURIComponent(rss)).then(r=>r.text()),d=new DOMParser().parseFromString(xml,"text/xml"),a=[...d.querySelectorAll("item")].slice(0,8);if(!a.length)throw 0;$("newsS").textContent=cat+" headlines. Select a headline to open it.";a.forEach((x,i)=>{let l=document.createElement("li"),z=document.createElement("a");z.href=x.querySelector("link").textContent;z.target="_blank";z.rel="noopener";z.textContent=i+1+". "+x.querySelector("title").textContent;l.append(z);$("newsL").append(l)});say("Here are the latest "+cat+" headlines. "+a.slice(0,4).map(x=>x.querySelector("title").textContent).join(". "))}catch(e){$("newsS").textContent="News could not load. Check your connection and try again.";say($("newsS").textContent)}}function calculate(x){try{let s=x.toLowerCase().replace(/multiplied by|times/g,"*").replace(/divided by/g,"/").replace(/plus/g,"+").replace(/minus/g,"-").replace(/to the power of/g,"**").replace(/square root of/g,"sqrt ").trim(),r;if(s.startsWith("sqrt "))r=Math.sqrt(Number(s.slice(5)));else{if(!/^[0-9+*/().\\-\\s]+$/.test(s))throw 0;r=Function('"use strict";return ('+s+")")()}if(!Number.isFinite(r))throw 0;say("The answer is "+r)}catch(e){say("I could not calculate that. Use numbers and operations such as plus, multiplied by, or square root of.")}}function esc(x){let d=document.createElement("div");d.textContent=x;return d.innerHTML}function contacts(){show("contactP");render()}function render(){let a=JSON.parse(localStorage.accessAIContacts||"[]");$("cl").innerHTML=a.length?"":'<p class="muted">No saved contacts yet.</p>';a.forEach((c,i)=>{let d=document.createElement("div");d.className="contact";d.innerHTML="<span><strong>"+esc(c.n)+"</strong><br><small>"+esc(c.p)+'</small></span><span><button data-call="'+i+'">Call</button> <button data-wa="'+i+'">WhatsApp</button></span>';$("cl").append(d)})}async function scanner(){show("scanP");try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});$("vid").srcObject=stream;$("vid").classList.remove("hide");$("det").textContent="Loading object detection model.";model=model||await cocoSsd.load();$("det").textContent="Camera ready. Looking for objects.";clearInterval(timer);timer=setInterval(async()=>{if(!$("vid").videoWidth)return;let a=await model.detect($("vid"));if(a[0]){let x=a[0],m=x.bbox[0]+x.bbox[2]/2,p=m<$("vid").videoWidth/3?"left":m>$("vid").videoWidth*2/3?"right":"center";$("det").textContent=x.class+", "+Math.round(x.score*100)+" percent confidence, "+p+"."}else $("det").textContent="No known object detected."},1300)}catch(e){$("det").textContent="Camera could not start. Allow camera permission and use a secure HTTPS site.";say($("det").textContent)}}function stopcam(){clearInterval(timer);if(stream)stream.getTracks().forEach(x=>x.stop());stream=null;$("vid").classList.add("hide");$("det").textContent="Camera stopped."}function command(x){if(/time/.test(x))return time();if(/date|day is/.test(x))return date();if(/location|where am i/.test(x))return loc();if(/weather|temperature/.test(x))return weather();if(/object|scanner|camera/.test(x))return scanner();if(/contact/.test(x))return contacts();if(/calculate|square root|multiplied|divided|power| plus | minus /.test(" "+x+" "))return calculate(x);if(/technology/.test(x))return news("Technology");if(/business/.test(x))return news("Business");if(/science/.test(x))return news("Science");if(/news|headlines/.test(x))return news("India");say("I heard "+x+". Try asking for time, weather, news, location, object scanner, contacts, or a calculation.")}function voice(){let R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R)return say("Speech recognition is not supported in this browser. Try Chrome on Android.");if(listen)return rec.stop();rec=new R;rec.lang="en-IN";rec.onstart=()=>{listen=1;$("voice").setAttribute("aria-pressed","true");$("vh").textContent="Listening. Speak now."};rec.onresult=e=>command(e.results[0][0].transcript.toLowerCase());rec.onerror=e=>say(e.error=="not-allowed"?"Microphone permission was denied. Please allow it in browser settings.":"Voice input error. Please try again.");rec.onend=()=>{listen=0;$("voice").setAttribute("aria-pressed","false");$("vh").textContent="Tap to speak"};rec.start()}$("voice").onclick=voice;document.querySelectorAll(".card").forEach(b=>b.onclick=()=>({news:()=>news(),location:loc,time,date,weather,scanner,contacts,calculator:()=>show("calcP")})[b.dataset.a]());document.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>news(b.dataset.n));$("camOn").onclick=scanner;$("camOff").onclick=stopcam;$("calc").onclick=()=>calculate($("ci").value);$("ci").onkeydown=e=>{if(e.key=="Enter")calculate(e.target.value)};$("save").onclick=()=>{let n=$("cn").value.trim(),p=$("cp").value.replace(/[^+0-9]/g,"");if(!n||p.length<7)return note("Enter a name and valid phone number.");let a=JSON.parse(localStorage.accessAIContacts||"[]");a.push({n,p});localStorage.accessAIContacts=JSON.stringify(a);$("cn").value=$("cp").value="";render();say(n+" has been saved.")};$("cl").onclick=e=>{let i=e.target.dataset.call??e.target.dataset.wa;if(i===undefined)return;let c=JSON.parse(localStorage.accessAIContacts)[i];if(e.target.dataset.call!==undefined)location.href="tel:"+c.p;else window.open("https://wa.me/"+c.p.replace(/^\\+/,"")+"?text="+encodeURIComponent("Hello "+c.n),"_blank")};document.addEventListener("touchstart",e=>sx=e.changedTouches[0].screenX,{passive:true});document.addEventListener("touchend",e=>{if(sx-e.changedTouches[0].screenX>90)location.href="communication.html"},{passive:true});if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});</script></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#070b14"><meta name="description" content="AccessAI accessibility assistant"><link rel="manifest" href="manifest.json"><title>AccessAI</title><style>:root{--b:#070b14;--p:#111a2b;--l:#2b3a56;--t:#fff;--m:#b9c5da;--a:#55b9ff;--f:#ffe15a;--g:#65df9b}*{box-sizing:border-box}body{margin:0;background:var(--b);color:var(--t);font:17px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input{font:inherit}button{min-height:56px;padding:12px 16px;border:2px solid transparent;border-radius:16px;background:var(--p);color:#fff;font-weight:750;cursor:pointer}button:focus-visible,input:focus-visible,a:focus-visible{outline:4px solid var(--f);outline-offset:3px}.app{max-width:760px;margin:auto;padding:max(16px,env(safe-area-inset-top)) 16px 32px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px}.brand{font-size:1.35rem;font-weight:900}.brand b{color:var(--a)}.ok{font-size:.82rem;color:var(--g)}h1{font-size:1.75rem;margin:26px 0 6px}h2{font-size:1.16rem;margin:28px 0 10px}.muted{color:var(--m);margin:0}.voice{width:100%;min-height:178px;margin:22px 0 10px;background:linear-gradient(135deg,#1464a1,#263f84);border-color:#83ccff;border-radius:28px;font-size:1.2rem}.voice[aria-pressed=true]{background:#8d334b;border-color:#ff9ba2}.voice small{display:block;font-size:.88rem;font-weight:600;margin-top:7px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{text-align:left;min-height:106px;border-color:var(--l)}.card strong{display:block}.card span{display:block;color:var(--m);font-size:.84rem;margin-top:3px}.panel{background:var(--p);border:1px solid var(--l);border-radius:18px;padding:16px;margin-top:14px}.row{display:flex;flex-wrap:wrap;gap:10px}.row button{flex:1}.primary{background:var(--a);color:#04111e}.hide{display:none!important}.out{min-height:58px;white-space:pre-wrap}.news{padding:0;margin:12px 0 0;list-style:none}.news a{display:block;color:#fff;padding:12px 0;border-bottom:1px solid var(--l);text-decoration:none}.news a:focus-visible{color:#000;background:var(--f)}video{width:100%;max-height:400px;object-fit:cover;background:#000;border-radius:14px}.detect{font-size:1.05rem;color:var(--g)}input{width:100%;min-height:54px;margin:6px 0;padding:10px;border:2px solid var(--l);border-radius:12px;background:#080f1e;color:#fff}.contact{display:flex;justify-content:space-between;gap:8px;padding:11px 0;border-bottom:1px solid var(--l)}.contact button{min-height:44px;padding:7px 10px}.foot{color:var(--m);font-size:.82rem;margin-top:26px}.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);max-width:92%;padding:12px 16px;border-radius:12px;background:#fff;color:#06101c;font-weight:700;z-index:9}@media(min-width:600px){.grid{grid-template-columns:repeat(3,1fr)}}</style></head><body><main class="app"><header class="top"><div class="brand">Access<b>AI</b></div><div class="ok" aria-live="polite">Ready</div></header><h1>Your world, within reach.</h1><p class="muted">Tap once, speak naturally, and hear the response.</p><button id="voice" class="voice" aria-pressed="false" aria-label="Tap to speak a command">🎙️ Tap to Speak<small id="vh">Examples: “What is the time?” or “Open technology news.”</small></button><p id="out" class="panel out" role="status" aria-live="polite">I am ready to help.</p><h2>Quick Access</h2><div class="grid" aria-label="Accessibility tools"><button class="card" data-a="news"><strong>Latest News</strong><span>Listen to headlines</span></button><button class="card" data-a="location"><strong>My Location</strong><span>Current position</span></button><button class="card" data-a="time"><strong>Current Time</strong><span>Hear the time</span></button><button class="card" data-a="date"><strong>Today’s Date</strong><span>Hear the date</span></button><button class="card" data-a="weather"><strong>Weather</strong><span>Local conditions</span></button><button class="card" data-a="scanner"><strong>Object Scanner</strong><span>AI camera detection</span></button><button class="card" data-a="contacts"><strong>Contacts</strong><span>Call and message</span></button><button class="card" data-a="calculator"><strong>Calculator</strong><span>Voice calculation</span></button></div><section id="newsP" class="panel hide"><h2>News Center</h2><div class="row"><button data-n="India">India</button><button data-n="Technology">Technology</button><button data-n="Business">Business</button><button data-n="Science">Science</button></div><p id="newsS" aria-live="polite">Choose a category.</p><ul id="newsL" class="news"></ul></section><section id="scanP" class="panel hide"><h2>Object Scanner</h2><p class="muted">Detection is assistance only. It does not replace a mobility aid, human support, or safe judgement.</p><div class="row"><button id="camOn" class="primary">Start Camera</button><button id="camOff">Stop Camera</button></div><video id="vid" class="hide" autoplay muted playsinline aria-label="Live camera preview"></video><p id="det" class="detect" aria-live="polite">Camera is not running.</p></section><section id="contactP" class="panel hide"><h2>Saved Contacts</h2><input id="cn" autocomplete="name" placeholder="Contact name" aria-label="Contact name"><input id="cp" inputmode="tel" placeholder="Phone number with country code" aria-label="Phone number"><button id="save" class="primary">Save Contact</button><div id="cl" aria-live="polite"></div></section><section id="calcP" class="panel hide"><h2>Calculator</h2><p class="muted">Try: 125 multiplied by 48, square root of 144, or 2 to the power of 10.</p><input id="ci" placeholder="Type a calculation" aria-label="Calculation"><button id="calc" class="primary">Calculate</button></section><p class="foot">Swipe left anywhere on this page to open Communication Assistant. It is not part of Quick Access.</p></main><div id="toast" class="toast hide" role="alert"></div><script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script><script>
+const $=x=>document.getElementById(x);
+const P=["newsP","scanP","contactP","calcP"];
+
+let rec=null;
+let micWanted=false;
+let recognizing=false;
+let speaking=false;
+let stream=null;
+let model=null;
+let timer=null;
+let sx=0;
+let restartTimer=null;
+
+function show(id){
+  P.forEach(x=>$(x).classList.toggle("hide",x!==id));
+  $(id).scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function note(text){
+  $("toast").textContent=text;
+  $("toast").classList.remove("hide");
+  setTimeout(()=>$("toast").classList.add("hide"),3500);
+}
+
+function setMicUI(active,text){
+  $("voice").setAttribute("aria-pressed",active?"true":"false");
+  $("vh").textContent=text;
+}
+
+function stopRecognitionOnly(){
+  clearTimeout(restartTimer);
+
+  if(rec&&recognizing){
+    try{rec.abort()}catch(e){}
+  }
+}
+
+function restartRecognition(){
+  clearTimeout(restartTimer);
+
+  if(!micWanted||speaking||recognizing){
+    return;
+  }
+
+  restartTimer=setTimeout(startRecognition,450);
+}
+
+function say(text){
+  $("out").textContent=text;
+
+  speechSynthesis.cancel();
+
+  if(micWanted&&recognizing){
+    stopRecognitionOnly();
+  }
+
+  speaking=true;
+
+  const speech=new SpeechSynthesisUtterance(text);
+  speech.rate=.92;
+  speech.pitch=1;
+
+  speech.onend=()=>{
+    speaking=false;
+
+    if(micWanted){
+      setMicUI(true,"AI is listening. Tap to stop.");
+      restartRecognition();
+    }
+  };
+
+  speech.onerror=()=>{
+    speaking=false;
+
+    if(micWanted){
+      restartRecognition();
+    }
+  };
+
+  speechSynthesis.speak(speech);
+}
+
+function time(){
+  const current=new Intl.DateTimeFormat("en-IN",{
+    hour:"numeric",
+    minute:"2-digit"
+  }).format(new Date());
+
+  say("The time is "+current);
+}
+
+function date(){
+  const current=new Intl.DateTimeFormat("en-IN",{
+    weekday:"long",
+    year:"numeric",
+    month:"long",
+    day:"numeric"
+  }).format(new Date());
+
+  say("Today is "+current);
+}
+
+function locationError(error){
+  const messages={
+    1:"Location permission was denied. Please allow location access in your browser settings.",
+    2:"Your location is unavailable. Turn on phone location and try again.",
+    3:"Location request timed out. Check GPS, mobile data, or Wi-Fi and try again."
+  };
+
+  say(messages[error.code]||"I could not get your location. Please try again.");
+}
+
+function loc(){
+  if(!window.isSecureContext){
+    say("Location needs a secure HTTPS website. Do not open the app using file colon slash slash.");
+    return;
+  }
+
+  if(!navigator.geolocation){
+    say("Location is not supported by this browser.");
+    return;
+  }
+
+  say("Finding your location.");
+
+  navigator.geolocation.getCurrentPosition(async position=>{
+    const lat=position.coords.latitude;
+    const lon=position.coords.longitude;
+    const coordinates=lat.toFixed(4)+", "+lon.toFixed(4);
+
+    try{
+      const url=
+        "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+
+        lat+
+        "&lon="+
+        lon+
+        "&zoom=18&addressdetails=1";
+
+      const response=await fetch(url,{
+        headers:{"Accept-Language":"en"}
+      });
+
+      if(!response.ok){
+        throw new Error("Reverse lookup failed");
+      }
+
+      const data=await response.json();
+      const address=data.address||{};
+
+      const place=
+        address.neighbourhood||
+        address.suburb||
+        address.village||
+        address.town||
+        address.city||
+        address.county||
+        data.display_name;
+
+      if(place){
+        say("Your approximate location is "+place+".");
+      }else{
+        say("Your approximate coordinates are "+coordinates+".");
+      }
+    }catch(e){
+      say("Your approximate coordinates are "+coordinates+".");
+    }
+  },locationError,{
+    enableHighAccuracy:false,
+    timeout:20000,
+    maximumAge:300000
+  });
+}
+
+function weather(){
+  if(!window.isSecureContext){
+    say("Weather needs a secure HTTPS website because it uses your location.");
+    return;
+  }
+
+  if(!navigator.geolocation){
+    say("Weather needs location support in your browser.");
+    return;
+  }
+
+  say("Getting local weather.");
+
+  navigator.geolocation.getCurrentPosition(async position=>{
+    try{
+      const url=
+        "https://api.open-meteo.com/v1/forecast?latitude="+
+        position.coords.latitude+
+        "&longitude="+
+        position.coords.longitude+
+        "&current=temperature_2m,apparent_temperature,weather_code&timezone=auto";
+
+      const data=await fetch(url).then(response=>{
+        if(!response.ok){
+          throw new Error("Weather request failed");
+        }
+
+        return response.json();
+      });
+
+      const current=data.current;
+
+      const conditions={
+        0:"clear skies",
+        1:"mainly clear",
+        2:"partly cloudy",
+        3:"overcast",
+        45:"foggy",
+        48:"foggy",
+        51:"light drizzle",
+        53:"drizzle",
+        55:"heavy drizzle",
+        61:"light rain",
+        63:"rain",
+        65:"heavy rain",
+        71:"light snow",
+        73:"snow",
+        80:"rain showers",
+        81:"rain showers",
+        82:"heavy rain showers",
+        95:"thunderstorms"
+      };
+
+      const condition=conditions[current.weather_code]||"unknown conditions";
+
+      say(
+        "It is "+
+        Math.round(current.temperature_2m)+
+        " degrees Celsius and "+
+        condition+
+        ". It feels like "+
+        Math.round(current.apparent_temperature)+
+        " degrees."
+      );
+    }catch(e){
+      say("Weather could not be loaded. Check your internet connection and try again.");
+    }
+  },locationError,{
+    enableHighAccuracy:false,
+    timeout:20000,
+    maximumAge:300000
+  });
+}
+
+async function getRSSNews(rssUrl){
+  const rss2json=
+    "https://api.rss2json.com/v1/api.json?rss_url="+
+    encodeURIComponent(rssUrl);
+
+  const response=await fetch(rss2json);
+
+  if(!response.ok){
+    throw new Error("News request failed");
+  }
+
+  const data=await response.json();
+
+  if(data.status!=="ok"||!data.items||!data.items.length){
+    throw new Error("No headlines found");
+  }
+
+  return data.items.slice(0,8).map(item=>({
+    title:item.title,
+    link:item.link
+  }));
+}
+
+async function news(category="India"){
+  show("newsP");
+
+  $("newsS").textContent="Loading "+category+" headlines…";
+  $("newsL").innerHTML="";
+
+  try{
+    const rss=
+      "https://news.google.com/rss/search?q="+
+      encodeURIComponent(category+" news India")+
+      "&hl=en-IN&gl=IN&ceid=IN:en";
+
+    const items=await getRSSNews(rss);
+
+    $("newsS").textContent=
+      category+" headlines. Select a headline to open it.";
+
+    items.forEach((item,index)=>{
+      const li=document.createElement("li");
+      const link=document.createElement("a");
+
+      link.href=item.link;
+      link.target="_blank";
+      link.rel="noopener";
+      link.textContent=(index+1)+". "+item.title;
+
+      li.append(link);
+      $("newsL").append(li);
+    });
+
+    const spoken=items
+      .slice(0,4)
+      .map(item=>item.title)
+      .join(". ");
+
+    say("Here are the latest "+category+" headlines. "+spoken);
+  }catch(e){
+    $("newsS").textContent=
+      "News could not load. Check your internet connection and try again.";
+
+    say(
+      "News could not load. The news service may be temporarily unavailable. Please try again later."
+    );
+  }
+}
+
+function prepareMath(input){
+  let text=input
+    .toLowerCase()
+    .replace(/what is|calculate|please|answer|equals|equal to/g,"")
+    .replace(/multiplied by|multiply by|times/g,"*")
+    .replace(/divided by|divide by|over/g,"/")
+    .replace(/plus|add/g,"+")
+    .replace(/minus|subtract/g,"-")
+    .replace(/to the power of|raised to|power of/g,"^")
+    .replace(/square root of/g,"sqrt(")
+    .replace(/cube root of/g,"cbrt(")
+    .replace(/percent of/g,"% *")
+    .replace(/percent/g,"%")
+    .replace(/open bracket|open parenthesis/g,"(")
+    .replace(/close bracket|close parenthesis/g,")")
+    .replace(/pi/g,"pi")
+    .trim();
+
+  if(text.startsWith("sqrt(")&&!text.endsWith(")")){
+    text+=")";
+  }
+
+  if(text.startsWith("cbrt(")&&!text.endsWith(")")){
+    text+=")";
+  }
+
+  text=text.replace(/\bsin (d+(.d+)?)/g,"sin($1 deg)");
+  text=text.replace(/\bcos (d+(.d+)?)/g,"cos($1 deg)");
+  text=text.replace(/\btan (d+(.d+)?)/g,"tan($1 deg)");
+  text=text.replace(/\blog (d+(.d+)?)/g,"log10($1)");
+
+  return text;
+}
+
+function calculate(input){
+  try{
+    if(!window.math){
+      throw new Error("Math library unavailable");
+    }
+
+    const expression=prepareMath(input);
+
+    if(!expression){
+      throw new Error("Empty expression");
+    }
+
+    if(!/^[0-9a-z+-*/^().,%s]+$/i.test(expression)){
+      throw new Error("Invalid characters");
+    }
+
+    const result=math.evaluate(expression);
+
+    if(typeof result==="function"||result===undefined||result===null){
+      throw new Error("Invalid result");
+    }
+
+    const clean=typeof result==="number"
+      ? Number(result.toFixed(10))
+      : String(result);
+
+    say("The answer is "+clean);
+  }catch(e){
+    say(
+      "I could not calculate that. Try a clear calculation, such as square root of 144, 15 percent of 2400, or open bracket 25 plus 15 close bracket multiplied by 4."
+    );
+  }
+}
+
+function esc(value){
+  const element=document.createElement("div");
+  element.textContent=value;
+  return element.innerHTML;
+}
+
+function getContacts(){
+  return JSON.parse(localStorage.accessAIContacts||"[]");
+}
+
+function contacts(){
+  show("contactP");
+  render();
+}
+
+function render(){
+  const all=getContacts();
+
+  $("cl").innerHTML=all.length
+    ? ""
+    : '<p class="muted">No saved contacts yet.</p>';
+
+  all.forEach((contact,index)=>{
+    const item=document.createElement("div");
+
+    item.className="contact";
+
+    item.innerHTML=
+      "<span><strong>"+
+      esc(contact.n)+
+      "</strong><br><small>"+
+      esc(contact.p)+
+      '</small></span><span><button data-call="'+
+      index+
+      '">Call</button> <button data-wa="'+
+      index+
+      '">WhatsApp</button></span>';
+
+    $("cl").append(item);
+  });
+}
+
+function findContact(name){
+  const wanted=name
+    .toLowerCase()
+    .replace(/\bmy\b/g,"")
+    .replace(/\bcontact\b/g,"")
+    .trim();
+
+  return getContacts().find(contact=>
+    contact.n.toLowerCase()===wanted||
+    contact.n.toLowerCase().includes(wanted)||
+    wanted.includes(contact.n.toLowerCase())
+  );
+}
+
+function openWhatsApp(contact,message){
+  const number=contact.p.replace(/[^d]/g,"");
+
+  if(number.length<7){
+    say("This saved contact does not have a valid phone number.");
+    return;
+  }
+
+  const url=
+    "https://wa.me/"+
+    number+
+    "?text="+
+    encodeURIComponent(message);
+
+  window.location.href=url;
+}
+
+function sendVoiceMessage(command){
+  let text=command
+    .toLowerCase()
+    .replace(/^(send )?(whatsapp )?(message|whatsapp message) to /,"")
+    .trim();
+
+  if(!text){
+    say("Please say the contact name and then your message.");
+    return true;
+  }
+
+  const all=getContacts()
+    .slice()
+    .sort((a,b)=>b.n.length-a.n.length);
+
+  let contact=null;
+  let message="";
+
+  for(const person of all){
+    const name=person.n.toLowerCase();
+
+    if(text===name||text.startsWith(name+" ")){
+      contact=person;
+      message=text.slice(name.length).trim();
+      break;
+    }
+
+    if(text.startsWith("my "+name+" ")){
+      contact=person;
+      message=text.slice(("my "+name).length).trim();
+      break;
+    }
+  }
+
+  if(!contact){
+    say("I could not find that saved contact. Please save the contact first.");
+    return true;
+  }
+
+  message=message.replace(/^(saying|that)s+/,"").trim();
+
+  if(!message){
+    say("Please tell me the message you want to send to "+contact.n+".");
+    return true;
+  }
+
+  say(
+    "Opening WhatsApp for "+
+    contact.n+
+    ". Your message is ready to review and send."
+  );
+
+  setTimeout(()=>{
+    openWhatsApp(contact,message);
+  },900);
+
+  return true;
+}
+
+async function scanner(){
+  show("scanP");
+
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({
+      video:{facingMode:{ideal:"environment"}},
+      audio:false
+    });
+
+    $("vid").srcObject=stream;
+    $("vid").classList.remove("hide");
+
+    $("det").textContent="Loading object detection model.";
+
+    model=model||await cocoSsd.load();
+
+    $("det").textContent="Camera ready. Looking for objects.";
+
+    clearInterval(timer);
+
+    timer=setInterval(async()=>{
+      if(!$("vid").videoWidth||!model){
+        return;
+      }
+
+      const results=await model.detect($("vid"));
+
+      if(results[0]){
+        const object=results[0];
+        const middle=object.bbox[0]+object.bbox[2]/2;
+
+        const position=
+          middle<$("vid").videoWidth/3
+            ? "left"
+            : middle>$("vid").videoWidth*2/3
+              ? "right"
+              : "center";
+
+        $("det").textContent=
+          object.class+
+          ", "+
+          Math.round(object.score*100)+
+          " percent confidence, "+
+          position+
+          ".";
+      }else{
+        $("det").textContent="No known object detected.";
+      }
+    },1300);
+  }catch(e){
+    $("det").textContent=
+      "Camera could not start. Allow camera permission and use a secure HTTPS site.";
+
+    say($("det").textContent);
+  }
+}
+
+function stopcam(){
+  clearInterval(timer);
+
+  if(stream){
+    stream.getTracks().forEach(track=>track.stop());
+  }
+
+  stream=null;
+  $("vid").classList.add("hide");
+  $("det").textContent="Camera stopped.";
+}
+
+function command(text){
+  text=text.toLowerCase().trim();
+
+  if(/^(send )?(whatsapp )?(message|whatsapp message) to /.test(text)){
+    return sendVoiceMessage(text);
+  }
+
+  if(/time/.test(text)){
+    return time();
+  }
+
+  if(/date|day is|today/.test(text)){
+    return date();
+  }
+
+  if(/location|where am i|where i am/.test(text)){
+    return loc();
+  }
+
+  if(/weather|temperature|forecast/.test(text)){
+    return weather();
+  }
+
+  if(/object|scanner|camera/.test(text)){
+    return scanner();
+  }
+
+  if(/contact|saved people|phone book/.test(text)){
+    return contacts();
+  }
+
+  if(
+    /calculate|square root|cube root|multiplied|divided|power|percent| plus | minus |sin |cos |tan |log /.test(
+      " "+text+" "
+    )
+  ){
+    return calculate(text);
+  }
+
+  if(/technology|tech news/.test(text)){
+    return news("Technology");
+  }
+
+  if(/business/.test(text)){
+    return news("Business");
+  }
+
+  if(/science/.test(text)){
+    return news("Science");
+  }
+
+  if(/news|headlines|india news/.test(text)){
+    return news("India");
+  }
+
+  say(
+    "I heard "+text+
+    ". You can ask for time, location, weather, news, object scanner, contacts, WhatsApp messages, or calculations."
+  );
+}
+
+function startRecognition(){
+  const SpeechRecognition=
+    window.SpeechRecognition||
+    window.webkitSpeechRecognition;
+
+  if(!SpeechRecognition){
+    micWanted=false;
+    setMicUI(false,"Speech recognition is not supported. Use Chrome on Android.");
+    say("Speech recognition is not supported in this browser. Try Chrome on Android.");
+    return;
+  }
+
+  if(!micWanted||speaking||recognizing){
+    return;
+  }
+
+  rec=new SpeechRecognition();
+  rec.lang="en-IN";
+  rec.continuous=true;
+  rec.interimResults=false;
+  rec.maxAlternatives=1;
+
+  rec.onstart=()=>{
+    recognizing=true;
+    setMicUI(true,"AI is listening. Tap to stop.");
+  };
+
+  rec.onresult=event=>{
+    for(let i=event.resultIndex;i<event.results.length;i++){
+      if(event.results[i].isFinal){
+        command(event.results[i][0].transcript);
+      }
+    }
+  };
+
+  rec.onerror=event=>{
+    if(event.error==="not-allowed"||event.error==="service-not-allowed"){
+      micWanted=false;
+      recognizing=false;
+      setMicUI(false,"Microphone permission was denied.");
+      say("Microphone permission was denied. Please allow it in browser settings.");
+      return;
+    }
+
+    if(event.error!=="aborted"&&event.error!=="no-speech"){
+      $("out").textContent="Voice input issue: "+event.error+". Trying again.";
+    }
+  };
+
+  rec.onend=()=>{
+    recognizing=false;
+
+    if(micWanted&&!speaking){
+      restartRecognition();
+    }
+  };
+
+  try{
+    rec.start();
+  }catch(e){
+    recognizing=false;
+
+    if(micWanted&&!speaking){
+      restartRecognition();
+    }
+  }
+}
+
+function toggleVoice(){
+  if(micWanted){
+    micWanted=false;
+    speechSynthesis.cancel();
+    stopRecognitionOnly();
+    setMicUI(false,"Tap to speak");
+    $("out").textContent="Voice Assistant is off.";
+    return;
+  }
+
+  micWanted=true;
+  setMicUI(true,"Starting microphone…");
+  startRecognition();
+}
+
+$("voice").onclick=toggleVoice;
+
+document.querySelectorAll(".card").forEach(button=>{
+  button.onclick=()=>{
+    const actions={
+      news:()=>news(),
+      location:loc,
+      time:time,
+      date:date,
+      weather:weather,
+      scanner:scanner,
+      contacts:contacts,
+      calculator:()=>show("calcP")
+    };
+
+    actions[button.dataset.a]();
+  };
+});
+
+document.querySelectorAll("[data-n]").forEach(button=>{
+  button.onclick=()=>news(button.dataset.n);
+});
+
+$("camOn").onclick=scanner;
+$("camOff").onclick=stopcam;
+
+$("calc").onclick=()=>{
+  calculate($("ci").value);
+};
+
+$("ci").onkeydown=event=>{
+  if(event.key==="Enter"){
+    calculate(event.target.value);
+  }
+};
+
+$("save").onclick=()=>{
+  const name=$("cn").value.trim();
+  const phone=$("cp").value.replace(/[^+0-9]/g,"");
+
+  if(!name||phone.length<7){
+    note("Enter a name and valid phone number.");
+    return;
+  }
+
+  const all=getContacts();
+
+  all.push({
+    n:name,
+    p:phone
+  });
+
+  localStorage.accessAIContacts=JSON.stringify(all);
+
+  $("cn").value="";
+  $("cp").value="";
+
+  render();
+  say(name+" has been saved.");
+};
+
+$("cl").onclick=event=>{
+  const index=event.target.dataset.call??event.target.dataset.wa;
+
+  if(index===undefined){
+    return;
+  }
+
+  const contact=getContacts()[index];
+
+  if(event.target.dataset.call!==undefined){
+    window.location.href="tel:"+contact.p;
+  }else{
+    openWhatsApp(contact,"Hello "+contact.n);
+  }
+};
+
+document.addEventListener("touchstart",event=>{
+  sx=event.changedTouches[0].screenX;
+},{passive:true});
+
+document.addEventListener("touchend",event=>{
+  const endX=event.changedTouches[0].screenX;
+
+  if(sx-endX>90){
+    window.location.href="communication.html";
+  }
+},{passive:true});
+
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("sw.js").catch(()=>{});
+}
+</script></body></html>
